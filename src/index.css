@@ -1,13 +1,48 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* src/index.css */
+
+/* Define CSS Variables for easy theme management */
+:root {
+  --primary-bg: #121212; /* Very dark grey, near black */
+  --secondary-bg: #1e1e1e; /* Slightly lighter grey for cards */
+  --text-primary: #e0e0e0; /* Light grey for body text */
+  --text-secondary: #ffffff; /* White for headings */
+  --accent-primary: #00f5c3; /* A vibrant, modern teal/mint */
+  --accent-hover: #00d1a7; /* Darker accent for hover effects */
+  --border-color: #333333; /* Subtle border color */
+
+  --font-family-main: 'Poppins', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-main);
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-secondary);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
 }

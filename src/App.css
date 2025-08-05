@@ -1,38 +1,336 @@
+
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* General Section Styling */
+.section {
+  padding: 80px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border-color);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.section:last-child {
+  border-bottom: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: var(--accent-primary);
+}
+
+
+/* Hero Section */
+.hero-section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/public/images/hero-background.jpg');
+  background-size: cover;
+  background-position: center;
+  color: var(--text-secondary);
+  padding: 20px;
+  text-align: center;
+}
+
+.hero-name {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.hero-tagline {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-top: 10px;
+  color: var(--text-primary);
+}
+
+/* Introduction Section */
+.introduction-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 40px;
 }
 
-.App-link {
-  color: #61dafb;
+@media (min-width: 768px) {
+  .introduction-section {
+    flex-direction: row;
+    text-align: left;
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.intro-headshot {
+  width: 250px; /* Increased size */
+  height: auto; /* Allow height to adjust proportionally */
+  border-radius: 8px; /* Optional: Give it a slight rounded corner if you want, or remove for sharp rectangle */
+  object-fit: cover;
+  /* Removed: border: 4px solid var(--accent-primary); */
+  /* Removed: border-radius: 50%; */
+}
+
+.intro-text p {
+  margin-bottom: 20px;
+}
+
+.intro-experience h3 {
+  color: var(--accent-primary);
+  margin-bottom: 10px;
+}
+
+.intro-experience ul {
+  list-style: none;
+  padding: 0;
+}
+
+.intro-experience li {
+  margin-bottom: 5px;
+}
+
+/* Audio Samples Section */
+.audio-samples-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+@media (min-width: 768px) {
+  .audio-samples-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
-  to {
-    transform: rotate(360deg);
+}
+
+.audio-player {
+  background-color: var(--secondary-bg);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.audio-player h3 {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+.audio-player p {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.audio-player audio {
+  width: 100%;
+}
+
+/* Styling the default audio player */
+audio::-webkit-media-controls-panel {
+  background-color: var(--secondary-bg);
+}
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-mute-button {
+  background-color: var(--accent-primary);
+  border-radius: 50%;
+}
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+  color: var(--text-primary);
+}
+
+
+/* Testimonials Section */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+@media (min-width: 768px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
+}
+
+.testimonial-card {
+  background-color: var(--secondary-bg);
+  padding: 25px;
+  border-left: 5px solid var(--accent-primary);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.testimonial-quote {
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+.testimonial-author {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.testimonial-author span {
+  display: block;
+  font-weight: 300;
+  font-style: normal;
+  color: var(--text-primary);
+}
+
+
+/* Contact Section */
+.contact-section p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.contact-button {
+  display: inline-block;
+  background-color: var(--accent-primary);
+  color: var(--primary-bg);
+  font-weight: 600;
+  padding: 15px 30px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: var(--accent-hover);
+  color: #000;
+  transform: translateY(-3px);
+}
+
+/* src/App.css */
+
+/* ... existing styles ... */
+
+/* Waveform Audio Player Styles */
+/* src/App.css */
+
+/* ... existing styles ... */
+
+/* Waveform Audio Player Styles */
+.waveform-player-card {
+  /* ADD THIS FOR MORE SPACE ABOVE */
+  margin-top: 60px; /* Adjust as needed for desired spacing */
+  /* END ADDITION */
+
+  /* REMOVE THESE FOR NO BACKGROUND OVERLAY */
+  /* background-color: var(--secondary-bg); */
+  /* border: 1px solid var(--border-color); */
+  /* END REMOVAL */
+
+  padding: 25px;
+  border-radius: 8px;
+  text-align: left;
+  grid-column: 1 / -1; /* Make it span full width in the grid */
+}
+
+.waveform-player-card h3 {
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.waveform-player-card p {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.waveform-container {
+  width: 100%;
+  margin-bottom: 20px; /* Will be less relevant with new control layout */
+}
+
+.waveform-controls {
+  display: flex; /* Keeps controls on a single line */
+  align-items: center; /* Vertically aligns items in the center */
+  gap: 20px; /* Space between play button group and waveform */
+}
+
+/* Play Button */
+.waveform-play-button {
+  background-color: var(--accent-primary);
+  color: var(--primary-bg); /* Text/icon color */
+  border: none;
+  width: 50px; /* Make it round */
+  height: 50px; /* Make it round */
+  border-radius: 50%; /* Makes it round */
+  display: flex; /* For centering the icon */
+  justify-content: center; /* For centering the icon */
+  align-items: center; /* For centering the icon */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.5rem; /* Size of the play/pause icon */
+  padding: 0; /* Remove padding for precise sizing */
+  flex-shrink: 0; /* Prevents button from shrinking */
+}
+
+.waveform-play-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.waveform-volume {
+  display: flex;
+  flex-direction: column; /* Stack volume slider vertically */
+  align-items: center; /* Center slider if it's smaller */
+  gap: 5px; /* Space between icon and slider */
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  flex-shrink: 0; /* Prevents volume control from shrinking */
+}
+
+.waveform-volume span {
+  /* This span for "Volume:" label is removed from JSX, so this style is not strictly needed but good to keep in mind */
+  display: none; /* Ensure label is hidden if re-added in HTML */
+}
+
+.waveform-volume input[type="range"] {
+  width: 80px; /* Made volume slider a bit shorter */
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 5px;
+  background: var(--border-color);
+  outline: none;
+  opacity: 0.7;
+  transition: opacity .2s;
+}
+
+.waveform-volume input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  cursor: pointer;
+}
+
+.waveform-volume input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  cursor: pointer;
 }
