@@ -14,28 +14,32 @@ export const speakerData = {
       "Voiceover for 'Future Forward' Documentary"
     ],
     audioSamples: [
-      {
-        title: "Motivational Excerpt: The Power of Perspective",
-        description: "A clip from a recent keynote on resilience and mindset.",
-        file: "/audio/sample1.mp3?id=1" // Added unique query parameter
-      },
-      {
-        title: "Corporate Narration: Brand Story",
-        description: "A warm, professional tone for a corporate brand video.",
-        file: "/audio/sample1.mp3?id=2" // Added unique query parameter
-      },
-      {
-        title: "Energetic Conference Opening",
-        description: "Setting an upbeat and engaging tone for a major industry event.",
-        file: "/audio/sample1.mp3?id=3" // Added unique query parameter
-      },
-      {
-        title: "In-depth Podcast Interview Segment",
-        description: "A longer sample showcasing nuanced discussion and vocal range. Ideal for detailed insights.",
-        file: "/audio/sample1.mp3?id=4", // Use a unique ID for the same file
-        type: "waveform" // Add a type to differentiate this player
-      }
-    ],
+        {
+          title: "Motivational Excerpt: The Power of Perspective",
+          description: "A clip from a recent keynote on resilience and mindset.",
+          // Change this line:
+          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=1"
+        },
+        {
+          title: "Corporate Narration: Brand Story",
+          description: "A warm, professional tone for a corporate brand video.",
+          // Change this line:
+          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=2"
+        },
+        {
+          title: "Energetic Conference Opening",
+          description: "Setting an upbeat and engaging tone for a major industry event.",
+          // Change this line:
+          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=3"
+        },
+        {
+          title: "In-depth Podcast Interview Segment",
+          description: "A longer sample showcasing nuanced discussion and vocal range. Ideal for detailed insights.",
+          // Change this line:
+          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=4",
+          type: "waveform"
+        }
+      ],
     testimonials: [
       {
         quote: "Alex's delivery was electric. Our attendees were captivated from start to finish. Truly the highlight of our conference.",

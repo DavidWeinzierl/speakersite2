@@ -1,6 +1,6 @@
 {
   "name": "speakersite",
-  "homepage": "https://davidweinzierl.github.io/speaksite/",
+  "homepage": "https://davidweinzierl.github.io/speakersite/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

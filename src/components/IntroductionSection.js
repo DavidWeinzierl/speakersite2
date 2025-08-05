@@ -1,9 +1,12 @@
+// src/components/IntroductionSection.js
 import React from 'react';
 
 const IntroductionSection = ({ about, experience }) => {
   return (
     <section id="about" className="section introduction-section">
+
       <img src="/images/speaker-headshot.png" alt="Speaker Headshot" className="intro-headshot" />
+
       <div className="intro-text">
         <h2 className="section-title">About Me</h2>
         <p>{about}</p>
