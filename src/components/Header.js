@@ -30,7 +30,7 @@ const Header = () => {
       <div className="max-w-6xl mx-auto flex justify-between items-center h-full min-h-[52px]">
         <div className="flex items-center space-x-3">
           <img 
-            src={process.env.PUBLIC_URL + "/images/PYV1.svg"} 
+            src={process.env.PUBLIC_URL + "/images/PYV2.png"} 
             alt="Phil Your Voice Logo" 
             className="h-10 w-auto"
           />
