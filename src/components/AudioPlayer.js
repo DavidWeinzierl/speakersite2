@@ -213,7 +213,7 @@ const AudioPlayer = ({ title, description, file }) => {
         </div>
 
         {/* Controls */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between space-x-6 md:space-x-0">
           <button
             onClick={togglePlayPause}
             className="w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-lg hover:shadow-blue-500/25 hover:scale-105"
