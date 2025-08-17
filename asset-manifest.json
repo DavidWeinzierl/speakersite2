@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/speakersite2/static/css/main.8030cfaa.css",
-    "main.js": "/speakersite2/static/js/main.a0a66740.js",
+    "main.css": "/speakersite2/static/css/main.32e173eb.css",
+    "main.js": "/speakersite2/static/js/main.409f2a02.js",
     "static/js/453.b719db11.chunk.js": "/speakersite2/static/js/453.b719db11.chunk.js",
     "index.html": "/speakersite2/index.html",
-    "main.8030cfaa.css.map": "/speakersite2/static/css/main.8030cfaa.css.map",
-    "main.a0a66740.js.map": "/speakersite2/static/js/main.a0a66740.js.map",
+    "main.32e173eb.css.map": "/speakersite2/static/css/main.32e173eb.css.map",
+    "main.409f2a02.js.map": "/speakersite2/static/js/main.409f2a02.js.map",
     "453.b719db11.chunk.js.map": "/speakersite2/static/js/453.b719db11.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8030cfaa.css",
-    "static/js/main.a0a66740.js"
+    "static/css/main.32e173eb.css",
+    "static/js/main.409f2a02.js"
   ]
 }
