@@ -27,7 +27,7 @@ export const speakerData = {
           file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=2"
         },
         {
-          title: "Documentary Narration: Environmental Story",
+          title: "Documentary: Environmental Story",
           description: "Compelling storytelling voice that engages and educates viewers.",
           // Change this line:
           file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=3"
@@ -36,8 +36,27 @@ export const speakerData = {
           title: "Radio Commercial: Food & Beverage",
           description: "Appetizing, conversational tone that makes listeners crave the product.",
           // Change this line:
-          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=4",
-          type: "waveform"
+          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=4"
+        },
+        {
+          title: "E-Learning Module: Technology Training",
+          description: "Clear, instructional voice perfect for educational content and tutorials.",
+          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=5"
+        },
+        {
+          title: "Podcast Intro: Business Show",
+          description: "Professional, engaging introduction that sets the perfect tone.",
+          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=6"
+        },
+        {
+          title: "Audiobook Narration: Fiction",
+          description: "Immersive storytelling with character voices and emotional depth.",
+          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=7"
+        },
+        {
+          title: "TV Commercial: Lifestyle Brand",
+          description: "Sophisticated, aspirational voice that connects with premium audiences.",
+          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=8"
         }
       ],
     testimonials: [

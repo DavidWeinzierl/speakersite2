@@ -6,6 +6,58 @@ const AudioPlayer = ({ title, description, file }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.7);
+  const [waveformData, setWaveformData] = useState([]);
+  const [isLoadingWaveform, setIsLoadingWaveform] = useState(true);
+
+  // Generate waveform data from actual audio file
+  const generateWaveform = async (audioBuffer) => {
+    const samples = 40; // Number of waveform bars
+    const channelData = audioBuffer.getChannelData(0); // Use first channel
+    const blockSize = Math.floor(channelData.length / samples);
+    const waveform = [];
+
+    for (let i = 0; i < samples; i++) {
+      const start = i * blockSize;
+      const end = start + blockSize;
+      let sum = 0;
+      
+      // Calculate RMS (Root Mean Square) for this block
+      for (let j = start; j < end && j < channelData.length; j++) {
+        sum += channelData[j] * channelData[j];
+      }
+      
+      const rms = Math.sqrt(sum / blockSize);
+      const normalizedValue = Math.min(1, rms * 4); // Amplify and normalize
+      waveform.push(Math.max(0.1, normalizedValue)); // Ensure minimum height
+    }
+    
+    return waveform;
+  };
+
+  // Load and analyze audio file for waveform
+  const loadWaveform = async () => {
+    try {
+      setIsLoadingWaveform(true);
+      const response = await fetch(file);
+      const arrayBuffer = await response.arrayBuffer();
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      const waveform = await generateWaveform(audioBuffer);
+      setWaveformData(waveform);
+      audioContext.close();
+    } catch (error) {
+      console.error('Error loading waveform:', error);
+      // Fallback to generated waveform if loading fails
+      const fallbackWaveform = Array.from({ length: 40 }, (_, i) => {
+        const base = Math.sin(i * 0.3) * 0.5 + 0.5;
+        const variation = Math.sin(i * 0.8) * 0.3;
+        return Math.max(0.2, Math.min(1, base + variation));
+      });
+      setWaveformData(fallbackWaveform);
+    } finally {
+      setIsLoadingWaveform(false);
+    }
+  };
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -23,6 +75,9 @@ const AudioPlayer = ({ title, description, file }) => {
     audio.addEventListener('pause', handlePause);
     audio.addEventListener('ended', handleEnded);
 
+    // Load waveform when component mounts
+    loadWaveform();
+
     return () => {
       audio.removeEventListener('timeupdate', updateTime);
       audio.removeEventListener('loadedmetadata', updateDuration);
@@ -30,7 +85,7 @@ const AudioPlayer = ({ title, description, file }) => {
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, []);
+  }, [file]); // Re-run when file changes
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
@@ -51,6 +106,10 @@ const AudioPlayer = ({ title, description, file }) => {
     const clickX = e.clientX - rect.left;
     const newTime = (clickX / rect.width) * duration;
     audio.currentTime = newTime;
+  };
+
+  const handleWaveformClick = (e) => {
+    handleSeek(e);
   };
 
   const handleVolumeChange = (e) => {
@@ -78,18 +137,59 @@ const AudioPlayer = ({ title, description, file }) => {
       <audio ref={audioRef} src={file} preload="metadata" />
       
       <div className="space-y-4">
-        {/* Progress Bar */}
+        {/* Waveform Progress */}
         <div className="relative">
-          <div 
-            className="w-full h-2 bg-slate-300 rounded-full cursor-pointer hover:bg-slate-400 transition-colors"
-            onClick={handleSeek}
-          >
+          {isLoadingWaveform ? (
+            // Loading state
+            <div className="h-16 flex items-center justify-center">
+              <div className="text-sm text-gray-500">Loading waveform...</div>
+            </div>
+          ) : (
             <div 
-              className="h-full bg-accent rounded-full transition-all duration-150"
-              style={{ width: duration ? `${(currentTime / duration) * 100}%` : '0%' }}
-            />
-          </div>
-          <div className="flex justify-between text-xs text-gray-500 mt-1">
+              className="flex items-center justify-between h-16 cursor-pointer gap-px relative"
+              onClick={handleWaveformClick}
+            >
+              {/* Center line for reference */}
+              <div className="absolute inset-x-0 top-1/2 h-px bg-slate-200 transform -translate-y-1/2 z-0"></div>
+              
+              {waveformData.map((height, index) => {
+                const progress = duration ? (currentTime / duration) : 0;
+                const barProgress = progress * waveformData.length;
+                const isActive = index < barProgress;
+                const barHeight = height * 28; // Max height of 28px (14px up + 14px down from center)
+                
+                return (
+                  <div key={index} className="flex-1 relative z-10 flex flex-col items-center justify-center h-full">
+                    {/* Top half of waveform */}
+                    <div
+                      className={`w-full rounded-sm transition-all duration-150 ${
+                        isActive 
+                          ? 'bg-accent shadow-sm' 
+                          : 'bg-slate-300 hover:bg-slate-400'
+                      }`}
+                      style={{ 
+                        height: `${barHeight}px`,
+                        marginBottom: '1px'
+                      }}
+                    />
+                    {/* Bottom half of waveform (mirrored) */}
+                    <div
+                      className={`w-full rounded-sm transition-all duration-150 ${
+                        isActive 
+                          ? 'bg-accent shadow-sm' 
+                          : 'bg-slate-300 hover:bg-slate-400'
+                      }`}
+                      style={{ 
+                        height: `${barHeight}px`,
+                        marginTop: '1px'
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <div className="flex justify-between text-xs text-gray-500 mt-2">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -99,7 +199,7 @@ const AudioPlayer = ({ title, description, file }) => {
         <div className="flex items-center justify-between">
           <button
             onClick={togglePlayPause}
-            className="w-14 h-14 bg-accent hover:bg-accent/90 text-white rounded-full flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 shadow-lg hover:shadow-accent/25 hover:scale-105"
+            className="w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-lg hover:shadow-blue-500/25 hover:scale-105"
           >
             {isPlaying ? (
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
