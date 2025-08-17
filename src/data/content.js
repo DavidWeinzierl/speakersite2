@@ -65,29 +65,29 @@ export const speakerData = {
           file: process.env.PUBLIC_URL + "/audio/bellaflora.mp3"
         },
         {
-          title: "Wieselburgermesse",
+          title: "Wieselburger Messe",
           description: "Hörfunk-Spot",
           // Change this line:
           file: process.env.PUBLIC_URL + "/audio/wieselburgermesse.mp3"
         },
         {
-          title: "E-Learning Module: Technology Training",
-          description: "Clear, instructional voice perfect for educational content and tutorials.",
+          title: "Spot 5",
+          description: "Hörfunk-Spot",
           file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=5"
         },
         {
-          title: "Podcast Intro: Business Show",
-          description: "Professional, engaging introduction that sets the perfect tone.",
+          title: "Spot 6",
+          description: "Hörfunk-Spot",
           file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=6"
         },
         {
-          title: "Audiobook Narration: Fiction",
-          description: "Immersive storytelling with character voices and emotional depth.",
+          title: "Spot 7",
+          description: "Hörfunk-Spot",
           file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=7"
         },
         {
-          title: "TV Commercial: Lifestyle Brand",
-          description: "Sophisticated, aspirational voice that connects with premium audiences.",
+          title: "Spot 8",
+          description: "Hörfunk-Spot",
           file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=8"
         }
       ],

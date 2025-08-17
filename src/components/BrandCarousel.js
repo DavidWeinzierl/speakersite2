@@ -45,23 +45,23 @@ const BrandCarousel = ({ brands }) => {
          
         </div>
 
-        {/* Brand Carousel */}
-        <div className="relative h-48 flex items-center justify-center">
+        {/* Brand Carousel - Mobile: 2 brands, Desktop: 4 brands */}
+        <div className="relative h-40 md:h-48 flex items-center justify-center">
           <div className="w-full max-w-6xl overflow-hidden">
             <div 
               ref={carouselRef}
               className="flex"
               style={{
-                transform: `translateX(-${currentIndex * 25}%)`,
+                transform: `translateX(-${currentIndex * 50}%)`,
                 transition: isTransitioning ? 'transform 0.7s ease-in-out' : 'none'
               }}
             >
               {extendedBrands.map((brand, index) => (
                 <div
                   key={`${brand.id}-${index}`}
-                  className="flex-none w-1/4 flex items-center justify-center px-2"
+                  className="flex-none w-1/2 md:w-1/4 flex items-center justify-center px-2"
                 >
-                  <div className="w-64 h-40 bg-white rounded-lg shadow-md flex items-center justify-center p-6 border border-gray-100 hover:shadow-lg transition-shadow duration-300 relative">
+                  <div className="w-48 md:w-64 h-32 md:h-40 bg-white rounded-lg shadow-md flex items-center justify-center p-4 md:p-6 border border-gray-100 hover:shadow-lg transition-shadow duration-300 relative">
                     <img
                       src={brand.logo}
                       alt={brand.name}
