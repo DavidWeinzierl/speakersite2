@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useAudioContext } from '../contexts/AudioContext';
 
 const AudioPlayer = ({ title, description, file }) => {
   const audioRef = useRef(null);
@@ -8,6 +9,12 @@ const AudioPlayer = ({ title, description, file }) => {
   const [volume, setVolume] = useState(0.7);
   const [waveformData, setWaveformData] = useState([]);
   const [isLoadingWaveform, setIsLoadingWaveform] = useState(false);
+  
+  // Use audio context for managing multiple players
+  const { registerAudio, unregisterAudio, playAudio, stopAudio } = useAudioContext();
+  
+  // Create unique ID for this player
+  const playerId = `${title}-${file}`.replace(/\s+/g, '-');
 
   // Generate a natural-looking random waveform pattern
   const generateNaturalWaveform = (seed = 0) => {
@@ -74,11 +81,20 @@ const AudioPlayer = ({ title, description, file }) => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    // Register this audio player with the context
+    registerAudio(playerId, audioRef);
+
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(audio.duration);
     const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-    const handleEnded = () => setIsPlaying(false);
+    const handlePause = () => {
+      setIsPlaying(false);
+      stopAudio(playerId);
+    };
+    const handleEnded = () => {
+      setIsPlaying(false);
+      stopAudio(playerId);
+    };
 
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateDuration);
@@ -95,8 +111,11 @@ const AudioPlayer = ({ title, description, file }) => {
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('ended', handleEnded);
+      
+      // Unregister when component unmounts
+      unregisterAudio(playerId);
     };
-  }, [file]); // Add file dependency to regenerate when file changes
+  }, [file, playerId, registerAudio, unregisterAudio, stopAudio]); // Add dependencies
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
@@ -105,6 +124,8 @@ const AudioPlayer = ({ title, description, file }) => {
     if (isPlaying) {
       audio.pause();
     } else {
+      // Notify context that this player wants to play (will stop others)
+      playAudio(playerId);
       audio.play();
     }
   };

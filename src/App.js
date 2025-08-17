@@ -12,12 +12,16 @@ import AudioSamplesSection from './components/AudioSamplesSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import ContactSection from './components/ContactSection';
 
+// Import Context
+import { AudioProvider } from './contexts/AudioContext';
+
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <main className="pt-16">
+    <AudioProvider>
+      <div className="min-h-screen bg-white">
+        <Header />
+        <main className="pt-16">
         <HeroSection 
           name={speakerData.name} 
           tagline={speakerData.tagline} 
@@ -47,6 +51,7 @@ function App() {
       </main>
       <Footer />
     </div>
+    </AudioProvider>
   );
 }
 
