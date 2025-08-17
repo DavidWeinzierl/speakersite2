@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/speakersite/static/css/main.8e419340.css",
+    "main.js": "/speakersite/static/js/main.96dc6a74.js",
+    "static/js/453.7e006039.chunk.js": "/speakersite/static/js/453.7e006039.chunk.js",
+    "index.html": "/speakersite/index.html",
+    "main.8e419340.css.map": "/speakersite/static/css/main.8e419340.css.map",
+    "main.96dc6a74.js.map": "/speakersite/static/js/main.96dc6a74.js.map",
+    "453.7e006039.chunk.js.map": "/speakersite/static/js/453.7e006039.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8e419340.css",
+    "static/js/main.96dc6a74.js"
+  ]
+}
