@@ -3,11 +3,11 @@ import React from 'react';
 const HeroSection = ({ name, tagline }) => {
   return (
     <section className="relative h-screen flex flex-col justify-center items-center text-center text-white">
-      {/* Background with overlay */}
+      {/* Background with lighter overlay for better contrast */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('${process.env.PUBLIC_URL}/images/hero-background.jpg')`
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${process.env.PUBLIC_URL}/images/hero-background.jpg')`
         }}
       ></div>
       
@@ -16,13 +16,13 @@ const HeroSection = ({ name, tagline }) => {
         <h1 className="text-5xl md:text-7xl font-display font-bold mb-6 text-white">
           {name}
         </h1>
-        <p className="text-xl md:text-2xl font-light text-gray-300 mb-8">
+        <p className="text-xl md:text-2xl font-light text-gray-200 mb-8">
           {tagline}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a 
             href="#samples" 
-            className="bg-accent-500 text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-accent-600 transition-all duration-300 transform hover:scale-105"
+            className="bg-accent-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-accent-600 transition-all duration-300 transform hover:scale-105"
           >
             Listen to Samples
           </a>

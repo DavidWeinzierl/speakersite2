@@ -2,7 +2,7 @@ import React from 'react';
 
 const ContactSection = ({ email }) => {
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-accent-500 to-accent-600 text-gray-900">
+    <section className="py-20 px-6 bg-gradient-to-br from-accent-500 to-accent-600 text-white">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
           Let's Create Something Amazing
