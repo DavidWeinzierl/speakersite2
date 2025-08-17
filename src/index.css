@@ -1,4 +1,8 @@
-/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 /* Define CSS Variables for easy theme management */
 :root {
@@ -25,24 +29,33 @@ html {
 }
 
 body {
-  font-family: var(--font-family-main);
-  background-color: var(--primary-bg);
-  color: var(--text-primary);
-  line-height: 1.6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text-secondary);
-  font-weight: 600;
-  line-height: 1.2;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
-a {
-  color: var(--accent-primary);
-  text-decoration: none;
-  transition: color 0.3s ease;
+/* Custom slider styling */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  background: #eab308;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-a:hover {
-  color: var(--accent-hover);
+.slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  background: #eab308;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
 }

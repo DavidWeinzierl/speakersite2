@@ -3,12 +3,21 @@ import Testimonial from './Testimonial';
 
 const TestimonialsSection = ({ testimonials }) => {
   return (
-    <section id="testimonials" className="section">
-      <h2 className="section-title">What People Are Saying</h2>
-      <div className="testimonials-grid">
-        {testimonials.map((testimonial, index) => (
-          <Testimonial key={index} quote={testimonial.quote} author={testimonial.author} title={testimonial.title} />
-        ))}
+    <section className="py-20 px-6 bg-dark-secondary">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
+            What Clients Are Saying
+          </h2>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            Trusted by brands, agencies, and production companies worldwide
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, index) => (
+            <Testimonial key={index} quote={testimonial.quote} author={testimonial.author} title={testimonial.title} />
+          ))}
+        </div>
       </div>
     </section>
   );

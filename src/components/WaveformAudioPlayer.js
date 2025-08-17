@@ -16,12 +16,12 @@ const WaveformAudioPlayer = ({ title, description, file }) => {
     if (waveformRef.current) {
       wavesurfer.current = WaveSurfer.create({
         container: waveformRef.current,
-        waveColor: '#ccc',
-        progressColor: '#00f5c3',
-        cursorColor: '#fff',
+        waveColor: '#e5e7eb',
+        progressColor: '#eab308',
+        cursorColor: '#374151',
         barWidth: 3,
         barRadius: 3,
-        height: 60, // Made waveform smaller
+        height: 60,
         responsive: true,
         hideScrollbar: true,
         backend: 'MediaElement',
@@ -67,15 +67,35 @@ const WaveformAudioPlayer = ({ title, description, file }) => {
   }, []);
 
   return (
-    <div className="waveform-player-card">
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <div className="waveform-controls">
-        <button onClick={handlePlayPause} className="waveform-play-button">
-          {isPlaying ? '❚❚' : '▶'} {/* Changed content to just symbols */}
+    <div className="bg-white p-6 rounded-lg shadow-lg">
+      <div className="mb-4">
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+        <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
+      </div>
+      <div className="flex items-center space-x-4">
+        <button 
+          onClick={handlePlayPause} 
+          className="flex-shrink-0 w-12 h-12 bg-voice-500 hover:bg-voice-600 text-gray-900 rounded-full flex items-center justify-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-voice-300"
+        >
+          {isPlaying ? (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+            </svg>
+          ) : (
+            <svg className="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          )}
         </button>
-        <div className="waveform-volume">
-          {/* Removed <span>Volume:</span> label */}
+        
+        <div className="flex-1">
+          <div ref={waveformRef} className="waveform-container"></div>
+        </div>
+        
+        <div className="flex items-center space-x-2 flex-shrink-0">
+          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728" />
+          </svg>
           <input
             type="range"
             min="0"
@@ -83,10 +103,9 @@ const WaveformAudioPlayer = ({ title, description, file }) => {
             step="0.05"
             value={volume}
             onChange={handleVolumeChange}
-            className="volume-slider"
+            className="w-20 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
           />
         </div>
-        <div ref={waveformRef} className="waveform-container"></div> {/* Moved waveform container to the right */}
       </div>
     </div>
   );
