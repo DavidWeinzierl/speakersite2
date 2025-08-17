@@ -1,29 +1,60 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Header = () => {
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY < lastScrollY || currentScrollY < 100) {
+        // Scrolling up or near the top
+        setIsVisible(true);
+      } else {
+        // Scrolling down
+        setIsVisible(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <header className="bg-white bg-opacity-90 backdrop-blur-md text-gray-900 py-4 px-6 shadow-lg fixed w-full top-0 z-50 border-b border-gray-200">
-      <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <div className="flex items-center">
-          <h1 className="text-2xl font-display font-bold text-accent-500">
-            Philipp Obermüller
-          </h1>
-          <span className="ml-3 text-sm text-gray-600 hidden sm:inline">
-            Professional Voice
-          </span>
+    <header className={`bg-white text-gray-900 py-3 px-4 shadow-lg fixed w-full top-0 z-50 border-b border-gray-200 transition-transform duration-300 min-h-[60px] ${
+      isVisible ? 'transform translate-y-0' : 'transform -translate-y-full'
+    }`}>
+      <div className="max-w-6xl mx-auto flex justify-between items-center h-full min-h-[52px]">
+        <div className="flex items-center space-x-3">
+          <img 
+            src={process.env.PUBLIC_URL + "/images/PYV1.svg"} 
+            alt="Phil Your Voice Logo" 
+            className="h-10 w-auto"
+          />
+          <div className="flex flex-col">
+            <h1 className="text-3xl font-display font-bold text-accent-500 leading-tight">
+              Phil Your Voice
+            </h1>
+            <span className="text-xs text-gray-600 hidden sm:inline leading-tight">
+              Professioneller Sprecher
+            </span>
+          </div>
         </div>
         <nav className="hidden md:flex space-x-8">
           <a href="#about" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-            About
+            Über Mich
           </a>
           <a href="#samples" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-            Audio Samples
+            Hörproben
           </a>
           <a href="#testimonials" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-            Testimonials
+            blank
           </a>
           <a href="#contact" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-            Contact
+            Kontakt
           </a>
         </nav>
         <div className="md:hidden">

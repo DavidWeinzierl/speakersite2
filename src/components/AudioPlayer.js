@@ -7,56 +7,67 @@ const AudioPlayer = ({ title, description, file }) => {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.7);
   const [waveformData, setWaveformData] = useState([]);
-  const [isLoadingWaveform, setIsLoadingWaveform] = useState(true);
+  const [isLoadingWaveform, setIsLoadingWaveform] = useState(false);
 
-  // Generate waveform data from actual audio file
-  const generateWaveform = async (audioBuffer) => {
-    const samples = 40; // Number of waveform bars
-    const channelData = audioBuffer.getChannelData(0); // Use first channel
-    const blockSize = Math.floor(channelData.length / samples);
+  // Generate a natural-looking random waveform pattern
+  const generateNaturalWaveform = (seed = 0) => {
+    const samples = 40;
     const waveform = [];
-
+    
+    // Use seed to make waveforms consistent for each audio file
+    const random = (i) => {
+      const x = Math.sin(seed + i * 0.1) * 1000;
+      return x - Math.floor(x);
+    };
+    
     for (let i = 0; i < samples; i++) {
-      const start = i * blockSize;
-      const end = start + blockSize;
-      let sum = 0;
+      // Create more realistic audio waveform with increased variation
+      const baseAmplitude = 0.6; // Reduced base level to allow more fluctuation
+      const smoothWave = Math.sin(i * 0.15 + seed) * 0.35; // Increased variation
+      const mediumWave = Math.sin(i * 0.4 + seed * 1.5) * 0.25; // Increased variation
+      const detailWave = Math.sin(i * 0.8 + seed * 2) * 0.15; // Increased variation
+      const subtleNoise = (random(i) - 0.5) * 0.1; // Increased randomness
       
-      // Calculate RMS (Root Mean Square) for this block
-      for (let j = start; j < end && j < channelData.length; j++) {
-        sum += channelData[j] * channelData[j];
-      }
+      // Combine waves for realistic pattern
+      let amplitude = baseAmplitude + smoothWave + mediumWave + detailWave + subtleNoise;
       
-      const rms = Math.sqrt(sum / blockSize);
-      const normalizedValue = Math.min(1, rms * 4); // Amplify and normalize
-      waveform.push(Math.max(0.1, normalizedValue)); // Ensure minimum height
+      // Add more dramatic emphasis points for greater variation
+      if (i % 12 === 0 || i % 16 === 0) amplitude *= 1.6; // Stronger peaks
+      if (i % 9 === 0) amplitude *= 0.6; // Deeper valleys
+      if (i % 7 === 0) amplitude *= 1.3; // Additional variation points
+      
+      // Create some longer sections of varying amplitude
+      const sectionModifier = Math.sin(i * 0.08 + seed) * 0.2; // Increased section variation
+      amplitude += sectionModifier;
+      
+      // Normalize and ensure reasonable range with more dynamic spread
+      amplitude = Math.max(0.3, Math.min(1.0, amplitude));
+      waveform.push(amplitude);
+    }
+    
+    // Light smoothing to preserve variation while removing harsh transitions
+    for (let i = 1; i < waveform.length - 1; i++) {
+      const prev = waveform[i - 1];
+      const current = waveform[i];
+      const next = waveform[i + 1];
+      
+      // Apply lighter smoothing to preserve more variation
+      waveform[i] = (prev * 0.15 + current * 0.7 + next * 0.15);
     }
     
     return waveform;
   };
 
-  // Load and analyze audio file for waveform
-  const loadWaveform = async () => {
-    try {
-      setIsLoadingWaveform(true);
-      const response = await fetch(file);
-      const arrayBuffer = await response.arrayBuffer();
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-      const waveform = await generateWaveform(audioBuffer);
-      setWaveformData(waveform);
-      audioContext.close();
-    } catch (error) {
-      console.error('Error loading waveform:', error);
-      // Fallback to generated waveform if loading fails
-      const fallbackWaveform = Array.from({ length: 40 }, (_, i) => {
-        const base = Math.sin(i * 0.3) * 0.5 + 0.5;
-        const variation = Math.sin(i * 0.8) * 0.3;
-        return Math.max(0.2, Math.min(1, base + variation));
-      });
-      setWaveformData(fallbackWaveform);
-    } finally {
-      setIsLoadingWaveform(false);
-    }
+  // Load and generate natural waveform
+  const loadWaveform = () => {
+    setIsLoadingWaveform(true);
+    
+    // Generate a natural-looking waveform based on the file path as seed
+    // This ensures each audio file gets a consistent but unique waveform
+    const seed = file.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const waveform = generateNaturalWaveform(seed);
+    setWaveformData(waveform);
+    setIsLoadingWaveform(false);
   };
 
   useEffect(() => {
@@ -75,7 +86,7 @@ const AudioPlayer = ({ title, description, file }) => {
     audio.addEventListener('pause', handlePause);
     audio.addEventListener('ended', handleEnded);
 
-    // Load waveform when component mounts
+    // Generate waveform immediately when component mounts
     loadWaveform();
 
     return () => {
@@ -85,7 +96,7 @@ const AudioPlayer = ({ title, description, file }) => {
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [file]); // Re-run when file changes
+  }, [file]); // Add file dependency to regenerate when file changes
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
@@ -141,47 +152,32 @@ const AudioPlayer = ({ title, description, file }) => {
         <div className="relative">
           {isLoadingWaveform ? (
             // Loading state
-            <div className="h-16 flex items-center justify-center">
+            <div className="h-12 flex items-center justify-center">
               <div className="text-sm text-gray-500">Loading waveform...</div>
             </div>
           ) : (
             <div 
-              className="flex items-center justify-between h-16 cursor-pointer gap-px relative"
+              className="flex items-center justify-center h-12 cursor-pointer gap-px relative"
               onClick={handleWaveformClick}
             >
-              {/* Center line for reference */}
-              <div className="absolute inset-x-0 top-1/2 h-px bg-slate-200 transform -translate-y-1/2 z-0"></div>
-              
               {waveformData.map((height, index) => {
                 const progress = duration ? (currentTime / duration) : 0;
                 const barProgress = progress * waveformData.length;
                 const isActive = index < barProgress;
-                const barHeight = height * 28; // Max height of 28px (14px up + 14px down from center)
+                const barHeight = height * 40; // Total height of the waveform bar
                 
                 return (
-                  <div key={index} className="flex-1 relative z-10 flex flex-col items-center justify-center h-full">
-                    {/* Top half of waveform */}
+                  <div key={index} className="flex-1 flex items-center justify-center h-full">
+                    {/* Single continuous waveform bar */}
                     <div
                       className={`w-full rounded-sm transition-all duration-150 ${
                         isActive 
-                          ? 'bg-accent shadow-sm' 
+                          ? 'bg-gray-400 shadow-sm' 
                           : 'bg-slate-300 hover:bg-slate-400'
                       }`}
                       style={{ 
                         height: `${barHeight}px`,
-                        marginBottom: '1px'
-                      }}
-                    />
-                    {/* Bottom half of waveform (mirrored) */}
-                    <div
-                      className={`w-full rounded-sm transition-all duration-150 ${
-                        isActive 
-                          ? 'bg-accent shadow-sm' 
-                          : 'bg-slate-300 hover:bg-slate-400'
-                      }`}
-                      style={{ 
-                        height: `${barHeight}px`,
-                        marginTop: '1px'
+                        minHeight: '4px'
                       }}
                     />
                   </div>
@@ -213,8 +209,8 @@ const AudioPlayer = ({ title, description, file }) => {
           </button>
 
           <div className="flex items-center space-x-3">
-            <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728" />
+            <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
             </svg>
             <input
               type="range"
@@ -227,17 +223,10 @@ const AudioPlayer = ({ title, description, file }) => {
                 background: '#cbd5e1',
                 height: '8px'
               }}
-              className="w-20 h-2 rounded-lg appearance-none cursor-pointer accent-accent slider-visible"
+              className="w-20 h-2 rounded-lg appearance-none cursor-pointer accent-blue-500 slider-visible"
             />
           </div>
         </div>
-      </div>
-      
-      <div className="mt-4 flex items-center text-xs text-accent">
-        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M9 12a3 3 0 106 0v-5a3 3 0 10-6 0v5z" />
-        </svg>
-        Professional Voice Sample
       </div>
     </div>
   );

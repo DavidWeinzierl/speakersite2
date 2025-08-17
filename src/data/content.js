@@ -4,39 +4,71 @@
 
 export const speakerData = {
     name: "Philipp Obermüller",
-    tagline: "Professional Voice Talent & Radio Commercial Specialist",
+    tagline: "Phil | Your Voice - Ihre Stimme mit Gefühl und Ausdruck",
     email: "philipp.obermuller@example.com",
-    about: "I am a professional voice talent with over a decade of experience bringing scripts to life through compelling narration and commercial work. My passion is crafting authentic, engaging voiceovers that connect with audiences and drive results. Whether it's a radio commercial, corporate narration, or documentary work, I deliver the perfect voice to tell your story.",
+    about: "I bims a professional voice talent with over a decade of experience bringing scripts to life through compelling narration and commercial work. My passion is crafting authentic, engaging voiceovers that connect with audiences and drive results. Whether it's a radio commercial, corporate narration, or documentary work, I deliver the perfect voice to tell your story.",
     experience: [
       "Voice Talent for National Radio Campaigns",
       "Corporate Narration for Fortune 500 Companies",
       "Documentary Narrator for Award-Winning Films",
       "Commercial Voice for Leading Brands"
     ],
+    brands: [
+      {
+        id: 1,
+        name: "Ford",
+        logo: process.env.PUBLIC_URL + "/images/ford.png"
+      },
+      {
+        id: 2,
+        name: "Bellaflora",
+        logo: process.env.PUBLIC_URL + "/images/bellaflora.png"
+      },
+      {
+        id: 3,
+        name: "Europlasma",
+        logo: process.env.PUBLIC_URL + "/images/europlasma.png"
+      },
+      {
+        id: 4,
+        name: "Casinos Austria",
+        logo: process.env.PUBLIC_URL + "/images/casinosaustria.png"
+      },
+      {
+        id: 5,
+        name: "Nespresso",
+        logo: process.env.PUBLIC_URL + "/images/nespresso.svg"
+      },
+      {
+        id: 6,
+        name: "Wiselburger Messe",
+        logo: process.env.PUBLIC_URL + "/images/wieselburgermesse.png"
+      }
+    ],
     audioSamples: [
         {
-          title: "Radio Commercial: Automotive Brand",
-          description: "High-energy commercial showcasing dynamic vocal range and persuasive delivery.",
+          title: "Europlasma",
+          description: "Kino-Spot",
           // Change this line:
-          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=1"
+          file: process.env.PUBLIC_URL + "/audio/europlasma.mp3"
         },
         {
-          title: "Corporate Narration: Healthcare Services",
-          description: "Warm, trustworthy voice perfect for professional healthcare messaging.",
+          title: "Ford 4 You",
+          description: "Hörfunk-Spot",
           // Change this line:
-          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=2"
+          file: process.env.PUBLIC_URL + "/audio/ford.mp3"
         },
         {
-          title: "Documentary: Environmental Story",
-          description: "Compelling storytelling voice that engages and educates viewers.",
+          title: "Bellaflora",
+          description: "Hörfunk-Spot",
           // Change this line:
-          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=3"
+          file: process.env.PUBLIC_URL + "/audio/bellaflora.mp3"
         },
         {
-          title: "Radio Commercial: Food & Beverage",
-          description: "Appetizing, conversational tone that makes listeners crave the product.",
+          title: "Wieselburgermesse",
+          description: "Hörfunk-Spot",
           // Change this line:
-          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=4"
+          file: process.env.PUBLIC_URL + "/audio/wieselburgermesse.mp3"
         },
         {
           title: "E-Learning Module: Technology Training",

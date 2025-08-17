@@ -30,7 +30,8 @@ function App() {
         </div>
         <div id="samples">
           <AudioSamplesSection 
-            samples={speakerData.audioSamples} 
+            samples={speakerData.audioSamples}
+            brands={speakerData.brands}
           />
         </div>
         <div id="testimonials">
