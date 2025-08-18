@@ -305,19 +305,19 @@ const AudioPlayer = ({ title, description, file }) => {
             {/* Right side: Waveform */}
             <div className="flex-1 min-w-0">
               {isLoadingWaveform ? (
-                <div className="h-8 flex items-center justify-center">
+                <div className="h-16 flex items-center justify-center">
                   <div className="text-xs text-gray-500">Loading...</div>
                 </div>
               ) : (
                 <div 
-                  className="flex items-center justify-center h-8 cursor-pointer gap-px relative"
+                  className="flex items-center justify-center h-16 cursor-pointer gap-px relative"
                   onClick={handleWaveformClick}
                 >
                   {waveformData.map((height, index) => {
                     const progress = duration ? (currentTime / duration) : 0;
                     const barProgress = progress * waveformData.length;
                     const isActive = index < barProgress;
-                    const barHeight = height * 24; // Smaller for mobile
+                    const barHeight = height * 48; // Doubled from 24 to 48 for mobile
                     
                     return (
                       <div key={index} className="flex-1 flex items-center justify-center h-full">
