@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -32,17 +33,27 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Services Section */}
+          {/* Legal Section */}
           <div className="text-center">
-            <h4 className="text-lg font-semibold text-accent-500 mb-4">Services</h4>
-            <ul className="text-gray-700 space-y-2">
-              <li>Radio Commercials</li>
-              <li>Corporate Narration</li>
-              <li>Documentary Voiceovers</li>
-              <li>Audiobook Narration</li>
-              <li>Podcast Intros</li>
-              <li>E-learning Content</li>
-            </ul>
+            <h4 className="text-lg font-semibold text-accent-500 mb-4">Rechtliches</h4>
+            <div className="space-y-3">
+              <Link 
+                to="/impressum" 
+                className="text-gray-700 hover:text-accent-500 transition-colors duration-300 block"
+              >
+                Impressum
+              </Link>
+              <span 
+                className="text-gray-700 hover:text-accent-500 transition-colors duration-300 block cursor-not-allowed opacity-50"
+              >
+                Datenschutz
+              </span>
+              <span 
+                className="text-gray-700 hover:text-accent-500 transition-colors duration-300 block cursor-not-allowed opacity-50"
+              >
+                AGB
+              </span>
+            </div>
           </div>
 
           {/* Contact Info */}
