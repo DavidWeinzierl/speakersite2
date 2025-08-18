@@ -162,9 +162,17 @@ const AudioPlayer = ({ title, description, file }) => {
   return (
     <div className="bg-light-secondary p-4 md:p-6 rounded-lg border border-light-border hover:border-accent transition-all duration-300 shadow-md hover:shadow-lg h-full flex flex-col">
       {/* Title and Description */}
-      <div className="mb-4 flex-shrink-0">
-        <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">{title}</h3>
-        <p className="text-gray-700 text-sm leading-relaxed">{description}</p>
+      <div className="mb-3 md:mb-4 flex-shrink-0">
+        {/* Mobile: Same line layout */}
+        <div className="md:hidden flex justify-between items-center">
+          <h3 className="text-lg font-semibold text-gray-900 truncate pr-2">{title}</h3>
+          <p className="text-gray-700 text-sm flex-shrink-0">{description}</p>
+        </div>
+        {/* Desktop: Stacked layout */}
+        <div className="hidden md:block">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+          <p className="text-gray-700 text-sm leading-relaxed">{description}</p>
+        </div>
       </div>
       
       <audio ref={audioRef} src={file} preload="metadata" />
