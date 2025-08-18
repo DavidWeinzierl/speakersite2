@@ -20,13 +20,14 @@ const Home = () => {
           experience={speakerData.experience}
         />
       </div>
+      <BrandCarousel brands={speakerData.brands} />
       <div id="samples">
         <AudioSamplesSection 
           samples={speakerData.audioSamples}
           brands={speakerData.brands}
         />
       </div>
-      <BrandCarousel brands={speakerData.brands} />
+
       <div id="testimonials">
         <TestimonialsSection 
           testimonials={speakerData.testimonials}
