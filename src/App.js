@@ -7,6 +7,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/Home';
 import Impressum from './components/Impressum';
+import Datenschutz from './components/Datenschutz';
+import AGB from './components/AGB';
 
 // Import Context
 import { AudioProvider } from './contexts/AudioContext';
@@ -22,6 +24,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/impressum" element={<Impressum />} />
+              <Route path="/datenschutz" element={<Datenschutz />} />
+              <Route path="/agb" element={<AGB />} />
             </Routes>
           </main>
           <Footer />

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +31,7 @@ const Header = () => {
       isVisible ? 'transform translate-y-0' : 'transform -translate-y-full'
     }`}>
       <div className="max-w-6xl mx-auto flex justify-between items-center h-full min-h-[52px]">
-        <div className="flex items-center space-x-3">
+        <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200">
           <img 
             src={process.env.PUBLIC_URL + "/images/PYV2.png"} 
             alt="Phil Your Voice Logo" 
@@ -42,20 +45,39 @@ const Header = () => {
               Professioneller Sprecher
             </span>
           </div>
-        </div>
+        </Link>
         <nav className="hidden md:flex space-x-8">
-          <a href="#about" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-            Über Mich
-          </a>
-          <a href="#samples" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-            Hörproben
-          </a>
-          <a href="#testimonials" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-            blank
-          </a>
-          <a href="#contact" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-            Kontakt
-          </a>
+          {isHomePage ? (
+            <>
+              <a href="#about" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+                Über Mich
+              </a>
+              <a href="#samples" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+                Hörproben
+              </a>
+              <a href="#testimonials" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+                Referenzen
+              </a>
+              <a href="#contact" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+                Kontakt
+              </a>
+            </>
+          ) : (
+            <>
+              <Link to="/#about" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+                Über Mich
+              </Link>
+              <Link to="/#samples" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+                Hörproben
+              </Link>
+              <Link to="/#testimonials" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+                Referenzen
+              </Link>
+              <Link to="/#contact" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+                Kontakt
+              </Link>
+            </>
+          )}
         </nav>
         <div className="md:hidden">
           <button className="text-accent-500 hover:text-accent-600">

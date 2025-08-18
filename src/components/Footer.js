@@ -43,16 +43,18 @@ const Footer = () => {
               >
                 Impressum
               </Link>
-              <span 
-                className="text-gray-700 hover:text-accent-500 transition-colors duration-300 block cursor-not-allowed opacity-50"
+              <Link 
+                to="/datenschutz" 
+                className="text-gray-700 hover:text-accent-500 transition-colors duration-300 block"
               >
                 Datenschutz
-              </span>
-              <span 
-                className="text-gray-700 hover:text-accent-500 transition-colors duration-300 block cursor-not-allowed opacity-50"
+              </Link>
+              <Link 
+                to="/agb" 
+                className="text-gray-700 hover:text-accent-500 transition-colors duration-300 block"
               >
                 AGB
-              </span>
+              </Link>
             </div>
           </div>
 
