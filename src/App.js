@@ -9,6 +9,7 @@ import Home from './components/Home';
 import Impressum from './components/Impressum';
 import Datenschutz from './components/Datenschutz';
 import AGB from './components/AGB';
+import ScrollToTop from './components/ScrollToTop';
 
 // Import Context
 import { AudioProvider } from './contexts/AudioContext';
@@ -18,6 +19,7 @@ function App() {
   return (
     <AudioProvider>
       <Router basename="/speakersite2">
+        <ScrollToTop />
         <div className="min-h-screen bg-white">
           <Header />
           <main className="pt-16">
