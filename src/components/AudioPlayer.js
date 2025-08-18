@@ -160,15 +160,15 @@ const AudioPlayer = ({ title, description, file }) => {
   };
 
   return (
-    <div className="bg-light-secondary p-6 rounded-lg border border-light-border hover:border-accent transition-all duration-300 shadow-md hover:shadow-lg">
-      <div className="mb-4">
+    <div className="bg-light-secondary p-6 rounded-lg border border-light-border hover:border-accent transition-all duration-300 shadow-md hover:shadow-lg h-full flex flex-col">
+      <div className="mb-4 flex-shrink-0">
         <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
         <p className="text-gray-700 text-sm leading-relaxed">{description}</p>
       </div>
       
       <audio ref={audioRef} src={file} preload="metadata" />
       
-      <div className="space-y-4">
+      <div className="space-y-4 flex-grow flex flex-col justify-end">
         {/* Waveform Progress */}
         <div className="relative">
           {isLoadingWaveform ? (

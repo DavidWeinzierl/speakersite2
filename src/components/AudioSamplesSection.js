@@ -23,7 +23,7 @@ const AudioSamplesSection = ({ samples, brands }) => {
           </div>
           
           {/* Audio samples grid - 8 small players in 2 rows */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-end">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 auto-rows-fr">
             {defaultSamples.map((sample, index) => (
               <AudioPlayer key={index} title={sample.title} description={sample.description} file={sample.file} />
             ))}
