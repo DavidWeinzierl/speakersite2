@@ -160,92 +160,180 @@ const AudioPlayer = ({ title, description, file }) => {
   };
 
   return (
-    <div className="bg-light-secondary p-6 rounded-lg border border-light-border hover:border-accent transition-all duration-300 shadow-md hover:shadow-lg h-full flex flex-col">
+    <div className="bg-light-secondary p-4 md:p-6 rounded-lg border border-light-border hover:border-accent transition-all duration-300 shadow-md hover:shadow-lg h-full flex flex-col">
+      {/* Title and Description */}
       <div className="mb-4 flex-shrink-0">
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+        <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">{title}</h3>
         <p className="text-gray-700 text-sm leading-relaxed">{description}</p>
       </div>
       
       <audio ref={audioRef} src={file} preload="metadata" />
       
-      <div className="space-y-4 flex-grow flex flex-col justify-end">
-        {/* Waveform Progress */}
-        <div className="relative">
-          {isLoadingWaveform ? (
-            // Loading state
-            <div className="h-12 flex items-center justify-center">
-              <div className="text-sm text-gray-500">Loading waveform...</div>
+      {/* Mobile: Horizontal Layout, Desktop: Vertical Layout */}
+      <div className="flex-grow flex flex-col justify-end">
+        
+        {/* Desktop Layout: Waveform first, then controls */}
+        <div className="hidden md:block space-y-4">
+          {/* Waveform Progress */}
+          <div className="relative">
+            {isLoadingWaveform ? (
+              // Loading state
+              <div className="h-12 flex items-center justify-center">
+                <div className="text-sm text-gray-500">Loading waveform...</div>
+              </div>
+            ) : (
+              <div 
+                className="flex items-center justify-center h-12 cursor-pointer gap-px relative"
+                onClick={handleWaveformClick}
+              >
+                {waveformData.map((height, index) => {
+                  const progress = duration ? (currentTime / duration) : 0;
+                  const barProgress = progress * waveformData.length;
+                  const isActive = index < barProgress;
+                  const barHeight = height * 40;
+                  
+                  return (
+                    <div key={index} className="flex-1 flex items-center justify-center h-full">
+                      <div
+                        className={`w-full rounded-sm transition-all duration-150 ${
+                          isActive 
+                            ? 'bg-gray-400 shadow-sm' 
+                            : 'bg-slate-300 hover:bg-slate-400'
+                        }`}
+                        style={{ 
+                          height: `${barHeight}px`,
+                          minHeight: '4px'
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <div className="flex justify-between text-xs text-gray-500 mt-2">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
             </div>
-          ) : (
-            <div 
-              className="flex items-center justify-center h-12 cursor-pointer gap-px relative"
-              onClick={handleWaveformClick}
+          </div>
+
+          {/* Desktop Controls */}
+          <div className="flex items-center justify-between space-x-3 md:space-x-0">
+            <button
+              onClick={togglePlayPause}
+              className="w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-lg hover:shadow-blue-500/25 hover:scale-105 flex-shrink-0"
             >
-              {waveformData.map((height, index) => {
-                const progress = duration ? (currentTime / duration) : 0;
-                const barProgress = progress * waveformData.length;
-                const isActive = index < barProgress;
-                const barHeight = height * 40; // Total height of the waveform bar
-                
-                return (
-                  <div key={index} className="flex-1 flex items-center justify-center h-full">
-                    {/* Single continuous waveform bar */}
-                    <div
-                      className={`w-full rounded-sm transition-all duration-150 ${
-                        isActive 
-                          ? 'bg-gray-400 shadow-sm' 
-                          : 'bg-slate-300 hover:bg-slate-400'
-                      }`}
-                      style={{ 
-                        height: `${barHeight}px`,
-                        minHeight: '4px'
-                      }}
-                    />
-                  </div>
-                );
-              })}
+              {isPlaying ? (
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+              ) : (
+                <svg className="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              )}
+            </button>
+
+            <div className="flex items-center space-x-3">
+              <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={volume}
+                onChange={handleVolumeChange}
+                style={{ 
+                  background: '#cbd5e1',
+                  height: '8px'
+                }}
+                className="w-16 md:w-20 h-2 rounded-lg appearance-none cursor-pointer accent-blue-500 slider-visible"
+              />
             </div>
-          )}
-          <div className="flex justify-between text-xs text-gray-500 mt-2">
-            <span>{formatTime(currentTime)}</span>
-            <span>{formatTime(duration)}</span>
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="flex items-center justify-between space-x-3 md:space-x-0">
-          <button
-            onClick={togglePlayPause}
-            className="w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-lg hover:shadow-blue-500/25 hover:scale-105 flex-shrink-0"
-          >
-            {isPlaying ? (
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-              </svg>
-            ) : (
-              <svg className="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-            )}
-          </button>
+        {/* Mobile Layout: Horizontal arrangement */}
+        <div className="md:hidden">
+          <div className="flex items-center gap-4">
+            {/* Left side: Play button and volume slider */}
+            <div className="flex flex-col items-center space-y-3 flex-shrink-0">
+              <button
+                onClick={togglePlayPause}
+                className="w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-lg hover:shadow-blue-500/25 hover:scale-105"
+              >
+                {isPlaying ? (
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                )}
+              </button>
+              
+              <div className="flex items-center space-x-2">
+                <svg className="w-4 h-4 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                </svg>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={volume}
+                  onChange={handleVolumeChange}
+                  style={{ 
+                    background: '#cbd5e1',
+                    height: '6px'
+                  }}
+                  className="w-16 h-1.5 rounded-lg appearance-none cursor-pointer accent-blue-500 slider-visible"
+                />
+              </div>
+            </div>
 
-          <div className="flex items-center space-x-3">
-            <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-            </svg>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.05"
-              value={volume}
-              onChange={handleVolumeChange}
-              style={{ 
-                background: '#cbd5e1',
-                height: '8px'
-              }}
-              className="w-16 md:w-20 h-2 rounded-lg appearance-none cursor-pointer accent-blue-500 slider-visible"
-            />
+            {/* Right side: Waveform */}
+            <div className="flex-1 min-w-0">
+              {isLoadingWaveform ? (
+                <div className="h-8 flex items-center justify-center">
+                  <div className="text-xs text-gray-500">Loading...</div>
+                </div>
+              ) : (
+                <div 
+                  className="flex items-center justify-center h-8 cursor-pointer gap-px relative"
+                  onClick={handleWaveformClick}
+                >
+                  {waveformData.map((height, index) => {
+                    const progress = duration ? (currentTime / duration) : 0;
+                    const barProgress = progress * waveformData.length;
+                    const isActive = index < barProgress;
+                    const barHeight = height * 24; // Smaller for mobile
+                    
+                    return (
+                      <div key={index} className="flex-1 flex items-center justify-center h-full">
+                        <div
+                          className={`w-full rounded-sm transition-all duration-150 ${
+                            isActive 
+                              ? 'bg-gray-400 shadow-sm' 
+                              : 'bg-slate-300 hover:bg-slate-400'
+                          }`}
+                          style={{ 
+                            height: `${barHeight}px`,
+                            minHeight: '3px'
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
