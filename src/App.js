@@ -1,4 +1,5 @@
 import React from 'react';
+import CookieConsent from "react-cookie-consent";
 
 // Import Data
 import { speakerData } from './data/content';
@@ -50,6 +51,62 @@ function App() {
         </div>
       </main>
       <Footer />
+      
+      {/* Cookie Consent Banner */}
+      <CookieConsent
+        location="bottom"
+        buttonText="Akzeptieren"
+        declineButtonText="Ablehnen"
+        enableDeclineButton
+        cookieName="philvoyvoiceCookieConsent"
+        style={{
+          background: "#1f2937",
+          fontSize: "16px",
+          padding: "1px",
+          textAlign: "left",
+          display: "flex",
+          alignItems: "flex-end",
+          gap: "20px"
+        }}
+        buttonStyle={{
+          background: "#3b82f6",
+          color: "white",
+          fontSize: "14px",
+          borderRadius: "6px",
+          padding: "10px 20px",
+          border: "none",
+          cursor: "pointer",
+          marginBottom: "25px"
+        }}
+        declineButtonStyle={{
+          background: "#6b7280",
+          color: "white",
+          fontSize: "14px",
+          borderRadius: "6px",
+          padding: "10px 20px",
+          border: "none",
+          cursor: "pointer",
+          marginRight: "10px",
+          marginBottom: "25px"
+        }}
+        expires={365}
+        overlay
+        onAccept={() => {
+          console.log("Cookies accepted");
+        }}
+        onDecline={() => {
+          console.log("Cookies declined");
+        }}
+      >
+        <div style={{ flex: 1 }}>
+          <strong>Cookie-Hinweis</strong>
+          <p style={{ marginTop: "5px", marginBottom: "5px" }}>
+            Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. 
+            Durch die weitere Nutzung der Website stimmen Sie der Verwendung von Cookies zu.{" "}
+            
+          </p>
+        </div>
+      </CookieConsent>
     </div>
     </AudioProvider>
   );
