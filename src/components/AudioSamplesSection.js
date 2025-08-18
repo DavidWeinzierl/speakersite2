@@ -1,17 +1,13 @@
 // src/components/AudioSamplesSection.js
 import React from 'react';
 import AudioPlayer from './AudioPlayer'; // Compact player for grid
-import BrandCarousel from './BrandCarousel'; // Brand carousel component
 
 const AudioSamplesSection = ({ samples, brands }) => {
   // Use all samples for the compact audio player grid
   const defaultSamples = samples;
 
   return (
-    <>
-      {/* Brand Carousel */}
-      <BrandCarousel brands={brands} />
-      
+    <>      
       {/* Audio Samples Section */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
