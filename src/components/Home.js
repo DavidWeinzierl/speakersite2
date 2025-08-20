@@ -3,7 +3,8 @@ import HeroSection from './HeroSection';
 import IntroductionSection from './IntroductionSection';
 import AudioSamplesSection from './AudioSamplesSection';
 import BrandCarousel from './BrandCarousel';
-import TestimonialsSection from './TestimonialsSection';
+import ServicesSection from './ServicesSection';
+import ServicesContactSection from './ServicesContactSection';
 import ContactSection from './ContactSection';
 import { speakerData } from '../data/content';
 
@@ -29,15 +30,18 @@ const Home = () => {
       </div>
 
       <div id="testimonials">
-        <TestimonialsSection 
-          testimonials={speakerData.testimonials}
+        <ServicesSection 
+          services={speakerData.services}
         />
       </div>
-      <div id="contact">
-        <ContactSection
-          email={speakerData.email}
-        />
-      </div>
+      
+      {/* Alternative Services Section with Contact Style */}
+      <ServicesContactSection 
+        services={speakerData.services}
+        email={speakerData.email}
+      />
+      
+
     </>
   );
 };

@@ -56,7 +56,7 @@ const Header = () => {
                 Hörproben
               </a>
               <a href="#testimonials" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-                Referenzen
+                Services
               </a>
               <a href="#contact" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
                 Kontakt
@@ -71,7 +71,7 @@ const Header = () => {
                 Hörproben
               </Link>
               <Link to="/#testimonials" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
-                Referenzen
+                Services
               </Link>
               <Link to="/#contact" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
                 Kontakt
