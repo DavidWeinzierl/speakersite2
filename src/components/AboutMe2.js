@@ -75,7 +75,7 @@ const AboutMe2 = () => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden bg-transparent"
+  className="relative w-full mt-5 h-[72vh] md:h-[84vh] overflow-hidden bg-transparent"
       aria-label="About me parallax section"
     >
       {/* Parallax image - smaller (about 25% of section height), anchored above the bottom 20% */}
@@ -118,7 +118,7 @@ const AboutMe2 = () => {
             
             {/* Speech bubble content with accent line */}
             <div className="relative">
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full"></div>
+              <div className="absolute left-0 top-0 bottom-0 w-0 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full"></div>
               <p className="text-gray-800 font-medium text-base leading-relaxed pl-4 mb-6">
                 {speakerData.about}
               </p>
@@ -200,6 +200,7 @@ const AboutMe2 = () => {
           vectorEffect="non-scaling-stroke"
         />
       </svg>
+
       <svg
     ref={polygonRef}
     className="absolute left-0 right-0 bottom-0 w-full h-[80%] pointer-events-none will-change-transform"
