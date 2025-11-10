@@ -6,7 +6,7 @@ export const speakerData = {
     name: "Philipp Obermüller",
     tagline: "Phil | Your Voice - Ihre Stimme mit Gefühl und Ausdruck",
     email: "philipp.obermuller@example.com",
-    about: "I bims a professional voice talent with over a decade of experience bringing scripts to life through compelling narration and commercial work. My passion is crafting authentic, engaging voiceovers that connect with audiences and drive results. Whether it's a radio commercial, corporate narration, or documentary work, I deliver the perfect voice to tell your story.",
+    about: "Meine Stimme erzählt Geschichten – für Werbung, Telefonschleifen, Hörbücher, Podcasts, E-Learning oder Synchronisation. Ich bin Philipp Obermüller, professioneller Sprecher aus Linz. Ob warm, seriös, energiegeladen oder charmant: Ich finde den passenden Ton für Ihr Projekt und liefere jede Aufnahme schnell, sauber und in höchster Qualität. Ich freue mich auf die Zusammenarbeit.",
     experience: [
       "Voice Talent for National Radio Campaigns",
       "Corporate Narration for Fortune 500 Companies",
