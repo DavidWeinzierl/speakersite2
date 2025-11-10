@@ -2,7 +2,7 @@ import React from 'react';
 import HeroSection from './HeroSection';
 import IntroductionSection from './IntroductionSection';
 import AudioSamplesSection from './AudioSamplesSection';
-import BrandCarousel from './BrandCarousel';
+// import BrandCarousel from './BrandCarousel';
 import ServicesSection from './ServicesSection';
 import ServicesContactSection from './ServicesContactSection';
 import ContactSection from './ContactSection';
@@ -21,7 +21,7 @@ const Home = () => {
           experience={speakerData.experience}
         />
       </div>
-      <BrandCarousel brands={speakerData.brands} />
+  {/* <BrandCarousel brands={speakerData.brands} /> */}
       <div id="samples">
         <AudioSamplesSection 
           samples={speakerData.audioSamples}
