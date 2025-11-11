@@ -40,13 +40,17 @@ const Home = () => {
         />
       </div>
       
-      {/* Alternative Services Section with Contact Style */}
+      {/* Alternative Services Section with Contact Style 
       <ServicesContactSection 
         services={speakerData.services}
         email={speakerData.email}
       />
+      */}
       
-
+      {/* Contact Section as the last section on the page */}
+      <div id="contact">
+        <ContactSection email={speakerData.email} />
+      </div>
     </>
   );
 };

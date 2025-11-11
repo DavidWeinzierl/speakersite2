@@ -86,7 +86,7 @@ const AboutMe2 = () => {
         className="absolute will-change-transform object-contain z-30"
         style={{
           left: '30%',
-          bottom: '7%',
+          bottom: '5%',
           height: '100%',
           transform: 'translate(-50%, 0)'
         }}
@@ -198,7 +198,7 @@ const AboutMe2 = () => {
       >
         {/* points: left-top y smaller = higher; right-top y larger = lower */}
         <polygon
-          points="0,10 30,40 100,60 100,100 0,100"
+          points="0,20 30,50 100,70 100,100 0,100"
           fill="#374151"
           vectorEffect="non-scaling-stroke"
         />
