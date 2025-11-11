@@ -50,7 +50,7 @@ const ContactSection = ({ email }) => {
         </div>
 
         {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-end">
           {/* Left Column - Contact Form */}
           <div className="bg-white rounded-2xl shadow-xl p-8 lg:p-10 transform hover:shadow-2xl transition-all duration-300">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Nachricht senden</h3>
@@ -159,23 +159,55 @@ const ContactSection = ({ email }) => {
             </form>
           </div>
 
-          {/* Right Column - Contact Information */}
-          <div className="space-y-8">
+          {/* Right Column - Speaker Image and Contact Info */}
+          <div className="space-y-6">
+            {/* Speaker Image */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300"></div>
+              <div className="relative bg-white rounded-2xl overflow-hidden shadow-xl">
+                <div className="aspect-[5/3] relative flex items-start justify-center">
+                  {/* Image container smaller than wrapper so only the image scales down */}
+                  <div className="w-1/2 h-full flex items-center justify-center overflow-hidden">
+                    <img
+                      src={process.env.PUBLIC_URL + '/images/speaker1.png'}
+                      alt="Professional Voice Actor"
+                      className="w-full h-full object-cover rounded-lg"
+                      style={{ objectPosition: 'center 40%' }}
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = process.env.PUBLIC_URL + '/images/speaker2.png'; }}
+                    />
+                  </div>
+                  {/* Overlay gradient for better text visibility if needed */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 to-transparent pointer-events-none"></div>
+                </div>
+                {/* Optional decorative element */}
+                <div className="absolute top-4 right-4 w-12 h-12 bg-accent-500 rounded-full flex items-center justify-center shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
             {/* Contact Info Card */}
-            <div className="bg-gradient-to-br from-accent-500 to-accent-600 text-white rounded-2xl shadow-xl p-8 lg:p-10">
-              <h3 className="text-2xl font-bold mb-6">Kontaktinformationen</h3>
+            <div className="bg-gradient-to-br from-accent-500 to-accent-600 text-white rounded-2xl shadow-xl p-8">
+              <h3 className="text-2xl font-bold mb-6 flex items-center">
+                <svg className="w-7 h-7 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                Kontaktinformationen
+              </h3>
               
-              <div className="space-y-6">
+              <div className="space-y-5">
                 {/* Email */}
                 <div className="flex items-start group cursor-pointer">
-                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-opacity-30 transition-all duration-300">
+                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-opacity-30 group-hover:scale-110 transition-all duration-300">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-semibold opacity-90">E-Mail</p>
-                    <a href={`mailto:${email}`} className="text-lg font-medium hover:underline">
+                    <p className="text-sm font-semibold opacity-90 mb-1">E-Mail</p>
+                    <a href={`mailto:${email}`} className="text-lg font-medium hover:underline break-all">
                       {email}
                     </a>
                   </div>
@@ -183,64 +215,40 @@ const ContactSection = ({ email }) => {
 
                 {/* Response Time */}
                 <div className="flex items-start">
-                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-semibold opacity-90">Antwortzeit</p>
+                    <p className="text-sm font-semibold opacity-90 mb-1">Antwortzeit</p>
                     <p className="text-lg font-medium">Innerhalb von 24 Stunden</p>
                   </div>
                 </div>
 
                 {/* Availability */}
                 <div className="flex items-start">
-                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-semibold opacity-90">Verfügbarkeit</p>
+                    <p className="text-sm font-semibold opacity-90 mb-1">Verfügbarkeit</p>
                     <p className="text-lg font-medium">Mo - Fr, 9:00 - 18:00</p>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Additional Info Card */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 lg:p-10">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Warum mit mir arbeiten?</h3>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <svg className="w-6 h-6 text-accent-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              {/* Call-to-action hint */}
+              <div className="mt-6 pt-6 border-t border-white border-opacity-20">
+                <p className="text-sm opacity-90 flex items-center">
+                  <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <div>
-                    <p className="font-semibold text-gray-900">Professionelle Qualität</p>
-                    <p className="text-gray-600 text-sm">Studioaufnahmen mit professionellem Equipment</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-6 h-6 text-accent-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <div>
-                    <p className="font-semibold text-gray-900">Schnelle Lieferung</p>
-                    <p className="text-gray-600 text-sm">Schnelle Lieferung ohne Qualitätsverlust</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-6 h-6 text-accent-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <div>
-                    <p className="font-semibold text-gray-900">Vielseitige Erfahrung</p>
-                    <p className="text-gray-600 text-sm">Von Werbespots bis zu Dokumentationen und mehr</p>
-                  </div>
-                </li>
-              </ul>
+                  <span>Ich freue mich darauf, von Ihrem Projekt zu hören!</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
