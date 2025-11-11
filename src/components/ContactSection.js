@@ -40,12 +40,12 @@ const ContactSection = ({ email }) => {
     <section className="py-20 px-6 bg-gray-100">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+          <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
-            Let's Work Together
+            Lassen Sie uns zusammenarbeiten
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Have a project in mind? Get in touch and let's create something extraordinary.
+            Haben Sie ein Projekt im Kopf? Nehmen Sie Kontakt auf und lassen Sie uns etwas Außergewöhnliches schaffen.
           </p>
         </div>
 
@@ -53,13 +53,13 @@ const ContactSection = ({ email }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Column - Contact Form */}
           <div className="bg-white rounded-2xl shadow-xl p-8 lg:p-10 transform hover:shadow-2xl transition-all duration-300">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Send a Message</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Nachricht senden</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Field */}
               <div className="group">
                 <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Your Name *
+                  Ihr Name *
                 </label>
                 <input
                   type="text"
@@ -69,14 +69,14 @@ const ContactSection = ({ email }) => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-accent-500 focus:ring-2 focus:ring-accent-200 transition-all duration-200 outline-none"
-                  placeholder="John Doe"
+                  placeholder="Max Mustermann"
                 />
               </div>
 
               {/* Email Field */}
               <div className="group">
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email Address *
+                  E-Mail-Adresse *
                 </label>
                 <input
                   type="email"
@@ -86,14 +86,14 @@ const ContactSection = ({ email }) => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-accent-500 focus:ring-2 focus:ring-accent-200 transition-all duration-200 outline-none"
-                  placeholder="john@example.com"
+                  placeholder="max@beispiel.de"
                 />
               </div>
 
               {/* Subject Field */}
               <div className="group">
                 <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Subject *
+                  Betreff *
                 </label>
                 <input
                   type="text"
@@ -103,14 +103,14 @@ const ContactSection = ({ email }) => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-accent-500 focus:ring-2 focus:ring-accent-200 transition-all duration-200 outline-none"
-                  placeholder="Project Inquiry"
+                  placeholder="Anfrage zum Projekt"
                 />
               </div>
 
               {/* Message Field */}
               <div className="group">
                 <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Your Message *
+                  Ihre Nachricht *
                 </label>
                 <textarea
                   id="message"
@@ -120,7 +120,7 @@ const ContactSection = ({ email }) => {
                   required
                   rows="6"
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-accent-500 focus:ring-2 focus:ring-accent-200 transition-all duration-200 outline-none resize-none"
-                  placeholder="Tell me about your project..."
+                  placeholder="Erzählen Sie mir von Ihrem Projekt..."
                 />
               </div>
 
@@ -136,14 +136,14 @@ const ContactSection = ({ email }) => {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    Sending...
+                    Wird gesendet...
                   </>
                 ) : (
                   <>
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    Send Message
+                    Nachricht senden
                   </>
                 )}
               </button>
@@ -153,7 +153,7 @@ const ContactSection = ({ email }) => {
                   <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  Message sent successfully!
+                  Nachricht erfolgreich gesendet!
                 </div>
               )}
             </form>
@@ -163,7 +163,7 @@ const ContactSection = ({ email }) => {
           <div className="space-y-8">
             {/* Contact Info Card */}
             <div className="bg-gradient-to-br from-accent-500 to-accent-600 text-white rounded-2xl shadow-xl p-8 lg:p-10">
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+              <h3 className="text-2xl font-bold mb-6">Kontaktinformationen</h3>
               
               <div className="space-y-6">
                 {/* Email */}
@@ -174,7 +174,7 @@ const ContactSection = ({ email }) => {
                     </svg>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-semibold opacity-90">Email</p>
+                    <p className="text-sm font-semibold opacity-90">E-Mail</p>
                     <a href={`mailto:${email}`} className="text-lg font-medium hover:underline">
                       {email}
                     </a>
@@ -189,8 +189,8 @@ const ContactSection = ({ email }) => {
                     </svg>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-semibold opacity-90">Response Time</p>
-                    <p className="text-lg font-medium">Within 24 hours</p>
+                    <p className="text-sm font-semibold opacity-90">Antwortzeit</p>
+                    <p className="text-lg font-medium">Innerhalb von 24 Stunden</p>
                   </div>
                 </div>
 
@@ -202,8 +202,8 @@ const ContactSection = ({ email }) => {
                     </svg>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-semibold opacity-90">Availability</p>
-                    <p className="text-lg font-medium">Mon - Fri, 9AM - 6PM</p>
+                    <p className="text-sm font-semibold opacity-90">Verfügbarkeit</p>
+                    <p className="text-lg font-medium">Mo - Fr, 9:00 - 18:00</p>
                   </div>
                 </div>
               </div>
@@ -211,15 +211,15 @@ const ContactSection = ({ email }) => {
 
             {/* Additional Info Card */}
             <div className="bg-white rounded-2xl shadow-xl p-8 lg:p-10">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Work With Me?</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Warum mit mir arbeiten?</h3>
               <ul className="space-y-4">
                 <li className="flex items-start">
                   <svg className="w-6 h-6 text-accent-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <div>
-                    <p className="font-semibold text-gray-900">Professional Quality</p>
-                    <p className="text-gray-600 text-sm">Studio-grade recordings with professional equipment</p>
+                    <p className="font-semibold text-gray-900">Professionelle Qualität</p>
+                    <p className="text-gray-600 text-sm">Studioaufnahmen mit professionellem Equipment</p>
                   </div>
                 </li>
                 <li className="flex items-start">
@@ -227,8 +227,8 @@ const ContactSection = ({ email }) => {
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <div>
-                    <p className="font-semibold text-gray-900">Quick Turnaround</p>
-                    <p className="text-gray-600 text-sm">Fast delivery without compromising quality</p>
+                    <p className="font-semibold text-gray-900">Schnelle Lieferung</p>
+                    <p className="text-gray-600 text-sm">Schnelle Lieferung ohne Qualitätsverlust</p>
                   </div>
                 </li>
                 <li className="flex items-start">
@@ -236,8 +236,8 @@ const ContactSection = ({ email }) => {
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <div>
-                    <p className="font-semibold text-gray-900">Versatile Experience</p>
-                    <p className="text-gray-600 text-sm">From commercials to documentaries and beyond</p>
+                    <p className="font-semibold text-gray-900">Vielseitige Erfahrung</p>
+                    <p className="text-gray-600 text-sm">Von Werbespots bis zu Dokumentationen und mehr</p>
                   </div>
                 </li>
               </ul>
