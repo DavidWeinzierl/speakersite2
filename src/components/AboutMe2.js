@@ -119,6 +119,9 @@ const AboutMe2 = () => {
             {/* Speech bubble content with accent line */}
             <div className="relative">
               <div className="absolute left-0 top-0 bottom-0 w-0 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full"></div>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 pl-4 mb-4">
+                {speakerData.aboutTitle}
+              </h2>
               <p className="text-gray-800 font-medium text-base leading-relaxed pl-4 mb-6">
                 {speakerData.about}
               </p>
