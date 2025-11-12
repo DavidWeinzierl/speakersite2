@@ -110,7 +110,7 @@ const AboutMe2 = () => {
             }}
           >
             {/* Decorative opening quote icon - top left */}
-            <div className="absolute -top-12 -right-8 w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center shadow-xl transform rotate-6">
+            <div className="absolute -top-12 -right-8 w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center shadow-xl transform rotate-6">
               <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
               </svg>
@@ -119,10 +119,10 @@ const AboutMe2 = () => {
             {/* Speech bubble content with accent line */}
             <div className="relative">
               <div className="absolute left-0 top-0 bottom-0 w-0 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full"></div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 pl-4 mb-4">
+              <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 pl-4 mb-6">
                 {speakerData.aboutTitle}
               </h2>
-              <p className="text-gray-800 font-medium text-base leading-relaxed pl-4 mb-6">
+              <p className="text-lg text-gray-700 leading-relaxed pl-4 mb-8">
                 {speakerData.about}
               </p>
             </div>
@@ -174,7 +174,7 @@ const AboutMe2 = () => {
               {/* Contact Button */}
               <a
                 href="#contact"
-                className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-2"
+                className="px-6 py-2.5 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-2"
               >
                 <span>Kontakt</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
