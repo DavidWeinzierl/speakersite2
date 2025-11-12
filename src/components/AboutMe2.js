@@ -75,15 +75,15 @@ const AboutMe2 = () => {
   return (
     <section
       ref={containerRef}
-  className="relative w-full mt-12 md:mt-20 h-[72vh] md:h-[84vh] overflow-hidden bg-transparent"
+  className="relative w-full mt-12 md:mt-20 h-auto md:h-[84vh] overflow-visible md:overflow-hidden bg-transparent"
       aria-label="About me parallax section"
     >
-      {/* Parallax image - smaller (about 25% of section height), anchored above the bottom 20% */}
+      {/* Parallax image (desktop only) - anchored near bottom, parallax-controlled */}
       <img
         ref={imgRef}
         src={process.env.PUBLIC_URL + '/images/speaker1.png'}
         alt="Speaker"
-        className="absolute will-change-transform object-contain z-30"
+        className="absolute will-change-transform object-contain z-30 hidden md:block"
         style={{
           left: '30%',
           bottom: '5%',
@@ -91,6 +91,17 @@ const AboutMe2 = () => {
           transform: 'translate(-50%, 0)'
         }}
       />
+
+      {/* Mobile image (in-flow) to avoid overlap with the mobile bubble */}
+      <div className="block md:hidden px-6">
+        <div className="w-full flex justify-center">
+          <img
+            src={process.env.PUBLIC_URL + '/images/speaker1.png'}
+            alt="Speaker"
+            className="w-3/4 max-w-xs object-contain z-30"
+          />
+        </div>
+      </div>
 
       {/* Mobile-only speech bubble (separate element so it's always visible on small screens) */}
       <div className="relative z-40 block md:hidden px-6">
