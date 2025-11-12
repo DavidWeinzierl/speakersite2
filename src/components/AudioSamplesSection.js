@@ -4,9 +4,8 @@ import AudioPlayer from './AudioPlayer'; // Compact player for grid
 import AudioPlayerWithLogo from './AudioPlayerWithLogo'; // Player with brand logo
 
 const AudioSamplesSection = ({ samples, brands }) => {
-  // Use all samples for the compact audio player grid
-  const defaultSamples = samples;
   const firstFourSamples = samples.slice(0, 4);
+  const secondFourSamples = samples.slice(4, 8);
   
   // Brand logos for the second row
   const brandLogos = [
@@ -14,6 +13,14 @@ const AudioSamplesSection = ({ samples, brands }) => {
     process.env.PUBLIC_URL + '/images/ford.png',
     process.env.PUBLIC_URL + '/images/bellaflora.png',
     process.env.PUBLIC_URL + '/images/wieselburgermesse.png'
+  ];
+
+  // Brand logos for the third row (mapping provided)
+  const brandLogosSecondRow = [
+    process.env.PUBLIC_URL + '/images/salzburgAG.png',
+    process.env.PUBLIC_URL + '/images/megaplexx.png',
+    process.env.PUBLIC_URL + '/images/FHCS.png',
+    process.env.PUBLIC_URL + '/images/jugendverschuldung.png'
   ];
 
   return (
@@ -28,14 +35,7 @@ const AudioSamplesSection = ({ samples, brands }) => {
             
           </div>
           
-          {/* Audio samples grid - Single column on mobile, 4 columns on desktop */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr mb-10">
-            {defaultSamples.map((sample, index) => (
-              <AudioPlayer key={`ap-${index}`} title={sample.title} description={sample.description} file={sample.file} />
-            ))}
-          </div>
-
-          {/* Additional row using the same AudioPlayer component as above (identical appearance) */}
+          {/* Additional row using the new AudioPlayerWithLogo for first four samples */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
             {firstFourSamples.map((sample, index) => (
               <AudioPlayerWithLogo 
@@ -44,6 +44,19 @@ const AudioSamplesSection = ({ samples, brands }) => {
                 description={sample.description} 
                 file={sample.file}
                 logo={brandLogos[index]}
+              />
+            ))}
+          </div>
+
+          {/* Third row: new AudioPlayerWithLogo for second row of samples */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr mt-6">
+            {secondFourSamples.map((sample, index) => (
+              <AudioPlayerWithLogo 
+                key={`ap-logo-2-${index}`} 
+                title={sample.title} 
+                description={sample.description} 
+                file={sample.file}
+                logo={brandLogosSecondRow[index]}
               />
             ))}
           </div>

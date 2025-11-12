@@ -24,13 +24,13 @@ const HeroSection = ({ name, tagline }) => {
             href="#samples" 
             className="bg-accent-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-accent-600 transition-all duration-300 transform hover:scale-105"
           >
-            Listen to Samples
+            Hörproben
           </a>
           <a 
             href="#contact" 
             className="border-2 border-accent-500 text-accent-500 px-8 py-4 rounded-lg font-semibold hover:bg-accent-500 hover:text-gray-900 transition-all duration-300"
           >
-            Get In Touch
+            Kontakt
           </a>
         </div>
       </div>
