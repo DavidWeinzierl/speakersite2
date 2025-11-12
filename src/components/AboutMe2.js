@@ -75,7 +75,7 @@ const AboutMe2 = () => {
   return (
     <section
       ref={containerRef}
-  className="relative w-full mt-5 h-[72vh] md:h-[84vh] overflow-hidden bg-transparent"
+  className="relative w-full mt-12 md:mt-20 h-[72vh] md:h-[84vh] overflow-hidden bg-transparent"
       aria-label="About me parallax section"
     >
       {/* Parallax image - smaller (about 25% of section height), anchored above the bottom 20% */}

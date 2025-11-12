@@ -12,7 +12,9 @@ const Footer = () => {
               Philipp Obermüller
             </h3>
             <p className="text-gray-700 mb-4">
-              Professional voice talent specializing in radio commercials, corporate narration, and documentary work.
+
+            Professionelle Sprecherstimme, spezialisiert für Werbung, Telefonschleifen, Hörbücher, Podcasts, E-Learning oder Synchronisation.          
+            
             </p>
             <div className="flex justify-center md:justify-start space-x-4">
               <a href="https://twitter.com" className="text-gray-500 hover:text-accent-500 transition-colors duration-300">
@@ -60,7 +62,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div className="text-center md:text-right">
-            <h4 className="text-lg font-semibold text-accent-500 mb-4">Get in Touch</h4>
+            <h4 className="text-lg font-semibold text-accent-500 mb-4">Kontakt</h4>
             <div className="space-y-3">
               <div className="flex items-center justify-center md:justify-end">
                 <svg className="w-5 h-5 text-accent-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
