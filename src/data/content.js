@@ -73,24 +73,24 @@ export const speakerData = {
           file: process.env.PUBLIC_URL + "/audio/wieselburgermesse.mp3"
         },
         {
-          title: "Spot 5",
+          title: "Salzburg AG",
           description: "Hörfunk-Spot",
-          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=5"
+          file: process.env.PUBLIC_URL + "/audio/SalzburgAG.mp3"
         },
         {
-          title: "Spot 6",
+          title: "Megaplexx",
           description: "Hörfunk-Spot",
-          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=6"
+          file: process.env.PUBLIC_URL + "/audio/Megaplexx.mp3"
         },
         {
-          title: "Spot 7",
+          title: "FHCS",
           description: "Hörfunk-Spot",
-          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=7"
+          file: process.env.PUBLIC_URL + "/audio/FHCS.wav"
         },
         {
-          title: "Spot 8",
+          title: "Jugendverschuldung",
           description: "Hörfunk-Spot",
-          file: process.env.PUBLIC_URL + "/audio/sample1.mp3?id=8"
+          file: process.env.PUBLIC_URL + "/audio/Jugendverschuldung.mp3"
         }
       ],
     testimonials: [
