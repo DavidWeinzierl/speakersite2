@@ -1,6 +1,5 @@
 import React from 'react';
 import HeroSection from './HeroSection';
-import IntroductionSection from './IntroductionSection';
 import AboutMe2 from './AboutMe2';
 import AudioSamplesSection from './AudioSamplesSection';
 // import BrandCarousel from './BrandCarousel';
@@ -16,12 +15,6 @@ const Home = () => {
         name={speakerData.name} 
         tagline={speakerData.tagline} 
       />
-      <div id="about">
-        <IntroductionSection
-          about={speakerData.about}
-          experience={speakerData.experience}
-        />
-      </div>
       {/* Alternative About Me section with parallax image and bottom overlay */}
       <div id="aboutMe2">
         <AboutMe2 />
