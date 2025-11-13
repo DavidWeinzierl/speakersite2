@@ -1,3 +1,47 @@
+# SpeakerSite2
+
+## Kontaktformular (Direkter Versand ohne Mail-Programm)
+
+Das bisherige Formular nutzte einen `mailto:` Link und öffnete das lokale Mail-Programm. Jetzt gibt es einen Server-Endpunkt (`POST /api/contact`), der E-Mails direkt an `philipp@philyourvoice.at` (konfigurierbar) versendet.
+
+### Wichtiger Hinweis zu GitHub Pages
+GitHub Pages ist rein statisch und kann den neuen Express Server nicht ausführen. Optionen:
+1. Deployment zu einem Anbieter mit Serverless/Node (z.B. Vercel, Netlify, Render, Fly.io).
+2. Beibehalten von GitHub Pages für das Frontend und Deployment des Servers auf einem separaten Host; das Frontend spricht dann dessen URL (Proxy entfernen und statt `/api/contact` absolute URL verwenden z.B. `https://api.deine-domain.tld/api/contact`).
+3. Alternative ohne eigenen Server: Dienste wie EmailJS, Formspree, Resend, SendGrid (Client-Integration). Diese erfordern API-Keys – niemals im Repository im Klartext committen.
+
+### Einrichtung für lokalen Versand
+1. Kopiere `.env.example` nach `.env` und trage echte SMTP Zugangsdaten ein.
+2. Installiere Abhängigkeiten (falls noch nicht): `npm install`.
+3. Starte Entwicklungsumgebung mit Backend: `npm run dev` (startet React + Express).
+4. Teste das Formular: Ausfüllen und absenden – Erfolgs-/Fehlerstatus wird angezeigt.
+
+Erforderliche Variablen in `.env`:
+```
+SMTP_HOST=dein.smtp.host
+SMTP_PORT=587
+SMTP_SECURE=false            # true falls Port 465 verwendet wird
+SMTP_USER=dein_smtp_user
+SMTP_PASS=dein_smtp_passwort
+SMTP_FROM=no-reply@deine-domain.tld  # optional
+TARGET_EMAIL=philipp@philyourvoice.at
+PORT=5000
+```
+
+### Sicherheit & DSGVO
+- Lege `.env` in `.gitignore` (Standard bei Create React App) – keine Credentials committen.
+- Aktiviere SPF, DKIM & DMARC für deine Domain, sonst landen Mails evtl. im Spam.
+- Füge ein Captcha / Rate Limiting für Produktion hinzu (naives Rate Limit ist bereits eingebaut).
+- Logging von personenbezogenen Daten vermeiden oder nur kurzlebig halten.
+
+### Fehlerbehebung
+- "Server nicht konfiguriert" → `TARGET_EMAIL` fehlt.
+- Auth Fehler → SMTP User/Pass oder Host/Port prüfen; ggf. TLS (`SMTP_SECURE=true`).
+- Keine Antwort im Formular → Browser DevTools Netzwerkanfragen prüfen (CORS / 404 / 500).
+
+### Produktion
+Bei Deployment auf z.B. Vercel: `server/index.js` in eine Serverless Function umwandeln oder eigenes `api/contact.js` anlegen (gleiche Logik). Environment Variables über Anbieter UI setzen.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
