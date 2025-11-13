@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -49,7 +50,7 @@ const Header = () => {
         <nav className="hidden md:flex space-x-8">
           {isHomePage ? (
             <>
-              <a href="#about" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+              <a href="#aboutMe2" className="text-gray-700 hover:text-accent-500 transition-colors duration-300" onClick={() => setMobileOpen(false)}>
                 Über Mich
               </a>
               <a href="#samples" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
@@ -64,7 +65,7 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Link to="/#about" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
+              <Link to="/#aboutMe2" className="text-gray-700 hover:text-accent-500 transition-colors duration-300" onClick={() => setMobileOpen(false)}>
                 Über Mich
               </Link>
               <Link to="/#samples" className="text-gray-700 hover:text-accent-500 transition-colors duration-300">
@@ -80,13 +81,51 @@ const Header = () => {
           )}
         </nav>
         <div className="md:hidden">
-          <button className="text-accent-500 hover:text-accent-600">
+          <button className="text-accent-500 hover:text-accent-600" aria-expanded={mobileOpen} aria-controls="mobile-menu" onClick={() => setMobileOpen((v) => !v)}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         </div>
       </div>
+      {/* Mobile menu panel */}
+      {mobileOpen && (
+        <div id="mobile-menu" className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+          <div className="max-w-6xl mx-auto px-4 py-4 space-y-3">
+            {isHomePage ? (
+              <>
+                <a href="#aboutMe2" className="block text-gray-800 hover:text-accent-500" onClick={() => setMobileOpen(false)}>
+                  Über Mich
+                </a>
+                <a href="#samples" className="block text-gray-800 hover:text-accent-500" onClick={() => setMobileOpen(false)}>
+                  Hörproben
+                </a>
+                <a href="#testimonials" className="block text-gray-800 hover:text-accent-500" onClick={() => setMobileOpen(false)}>
+                  Services
+                </a>
+                <a href="#contact" className="block text-gray-800 hover:text-accent-500" onClick={() => setMobileOpen(false)}>
+                  Kontakt
+                </a>
+              </>
+            ) : (
+              <>
+                <Link to="/#aboutMe2" className="block text-gray-800 hover:text-accent-500" onClick={() => setMobileOpen(false)}>
+                  Über Mich
+                </Link>
+                <Link to="/#samples" className="block text-gray-800 hover:text-accent-500" onClick={() => setMobileOpen(false)}>
+                  Hörproben
+                </Link>
+                <Link to="/#testimonials" className="block text-gray-800 hover:text-accent-500" onClick={() => setMobileOpen(false)}>
+                  Services
+                </Link>
+                <Link to="/#contact" className="block text-gray-800 hover:text-accent-500" onClick={() => setMobileOpen(false)}>
+                  Kontakt
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 };
