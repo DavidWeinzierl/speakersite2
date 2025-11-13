@@ -82,16 +82,8 @@ export const speakerData = {
           description: "Hörfunk-Spot",
           file: process.env.PUBLIC_URL + "/audio/Megaplexx.mp3"
         },
-        {
-          title: "FHCS",
-          description: "Hörfunk-Spot",
-          file: process.env.PUBLIC_URL + "/audio/FHCS.wav"
-        },
-        {
-          title: "Jugendverschuldung",
-          description: "Hörfunk-Spot",
-          file: process.env.PUBLIC_URL + "/audio/Jugendverschuldung.mp3"
-        }
+        // Removed FHCS and Jugendverschuldung per request - showing only top 6 samples
+        
       ],
     testimonials: [
       {
