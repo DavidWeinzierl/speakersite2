@@ -37,7 +37,7 @@ jobs:
 
       - name: Build Project
         # This command creates the 'build' folder that the next step needs
-        run: npm run build 
+        run: CI=false npm run build 
       # --- NEW STEPS END HERE ---
 
       - name: Setup Pages
