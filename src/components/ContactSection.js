@@ -48,11 +48,9 @@ const ContactSection = ({ email }) => {
         {/* Header */}
           <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
-            Lassen Sie uns zusammenarbeiten
+            Kontakt
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Haben Sie ein Projekt im Kopf? Nehmen Sie Kontakt auf und lassen Sie uns etwas Außergewöhnliches schaffen.
-          </p>
+
         </div>
 
         {/* Two Column Layout */}
