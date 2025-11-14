@@ -18,10 +18,13 @@ const Datenschutz = () => {
                 Allgemeine Hinweise
               </h3>
               <p className="text-sm leading-relaxed mb-4">
-                Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen 
-                Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit 
-                denen Sie persönlich identifiziert werden können.
+                Der Schutz Ihrer persönlichen Daten ist mir ein besonderes Anliegen. Ich verarbeite Ihre Daten daher ausschließlich auf Grundlage der gesetzlichen Bestimmungen (DSGVO, TKG 2003). In diesen Datenschutzinformationen informiere ich Sie über die wichtigsten Aspekte der Datenverarbeitung im Rahmen unserer Website.
               </p>
+              <h3 className="text-lg font-medium text-gray-900 mb-3">
+                Umgang mit personenbezogenen Daten
+              </h3>
+              <p className="text-sm leading-relaxed mb-4">
+Personenbezogene Daten sind Informationen, mit deren Hilfe eine Person bestimmbar ist, also Angaben, die zurück zu einer Person verfolgt werden können. Dazu gehören der Name, die Adresse, die Emailadresse oder die Telefonnummer. Personenbezogene Daten werden von mir nur dann erhoben, genutzt und weiter gegeben, wenn dies gesetzlich erlaubt ist oder die Nutzer in die Datenerhebung einwilligen. Ich erhebe solche Daten auf der Website nur, wenn diese im Kontaktformular eingegeben werden.              </p>
               
               <h3 className="text-lg font-medium text-gray-900 mb-3">
                 Datenerfassung auf dieser Website
@@ -64,16 +67,8 @@ const Datenschutz = () => {
               <h3 className="text-lg font-medium text-gray-900 mb-3">
                 Hinweis zur verantwortlichen Stelle
               </h3>
-              <p className="text-sm leading-relaxed mb-4">
-                Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:
-              </p>
-              <div className="bg-white p-4 rounded border text-sm">
-                <p><strong>Philipp Obermüller</strong></p>
-                <p>Musterstraße 123</p>
-                <p>1010 Wien, Österreich</p>
-                <p>E-Mail: philipp.obermuller@example.com</p>
-                <p>Telefon: +43 1 234 5678</p>
-              </div>
+
+
             </section>
 
             <section>
@@ -84,26 +79,14 @@ const Datenschutz = () => {
                 Cookies
               </h3>
               <p className="text-sm leading-relaxed mb-4">
-                Unsere Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf Ihrem Rechner 
-                keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot nutzerfreundlicher, 
-                effektiver und sicherer zu machen.
+                Diese Website verwendet so genannte Cookies. Dabei handelt es sich um kleine Textdateien, die mit Hilfe des Browsers auf Ihrem Endgerät abgelegt werden. Die meisten der von mir verwendeten Cookies sind so genannte „Session-Cookies“. Sie werden nach Ende Ihres Besuchs automatisch gelöscht. Cookies richten auf Ihrem Rechner keinen Schaden an und enthalten keine Viren.
+
+Ich nutze Cookies dazu, das Angebot nutzerfreundlich, effektiver und sicherer zu gestalten. Einige Cookies bleiben auf Ihrem Endgerät gespeichert, bis Sie diese löschen. Sie ermöglichen es, Ihren Browser beim nächsten Besuch wiederzuerkennen.
+
+Wenn Sie dies nicht wünschen, so können Sie Ihren Browser so einrichten, dass er Sie über das Setzen von Cookies informiert und Sie dies nur im Einzelfall erlauben. Bei der Deaktivierung von Cookies kann die Funktionalität der Website eingeschränkt sein.
               </p>
               
-              <h3 className="text-lg font-medium text-gray-900 mb-3">
-                Server-Log-Dateien
-              </h3>
-              <p className="text-sm leading-relaxed">
-                Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten 
-                Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt. Dies sind:
-              </p>
-              <ul className="list-disc list-inside text-sm text-gray-600 mt-2 space-y-1">
-                <li>Browsertyp und Browserversion</li>
-                <li>verwendetes Betriebssystem</li>
-                <li>Referrer URL</li>
-                <li>Hostname des zugreifenden Rechners</li>
-                <li>Uhrzeit der Serveranfrage</li>
-                <li>IP-Adresse</li>
-              </ul>
+
             </section>
 
             <section>
@@ -121,16 +104,19 @@ const Datenschutz = () => {
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
                 6. Ihre Rechte
               </h2>
-              <p className="text-sm leading-relaxed mb-4">
-                Sie haben jederzeit das Recht:
+                            <p className="text-sm leading-relaxed">
+                Ihnen stehen grundsätzlich die Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerruf und Widerspruch zu. Wenn Sie glauben, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt oder Ihre datenschutzrechtlichen Ansprüche sonst in einer Weise verletzt worden sind, können Sie sich bei der Aufsichtsbehörde beschweren. In Österreich ist dies die Datenschutzbehörde.
+
+Sie erreichen mich unter folgenden Kontaktdaten:
               </p>
-              <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
-                <li>unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten</li>
-                <li>unrichtige oder unvollständige Daten berichtigen oder vervollständigen zu lassen</li>
-                <li>unverzüglich die Löschung Ihrer gespeicherten Daten zu verlangen</li>
-                <li>die Einschränkung der Datenverarbeitung zu verlangen</li>
-                <li>ein kostenloses Beschwerderecht bei der zuständigen Aufsichtsbehörde</li>
-              </ul>
+                            <div className="bg-white p-4 rounded border text-sm">
+                <p><strong>Philipp Obermüller</strong></p>
+                <p>Aubrunnerweg 41/42</p>
+                <p>4040 Linz, Österreich</p>
+                <p>E-Mail: philipp@philyourvoice.at</p>
+                <p>Telefon: +43 664 24 23 725</p>
+              </div>
+
             </section>
           </div>
 
