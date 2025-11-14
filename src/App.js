@@ -18,7 +18,7 @@ import { AudioProvider } from './contexts/AudioContext';
 function App() {
   return (
     <AudioProvider>
-      <Router basename="/speakersite2">
+      <Router>
         <ScrollToTop />
         <div className="min-h-screen bg-white">
           <Header />
