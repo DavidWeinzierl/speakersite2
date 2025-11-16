@@ -1,6 +1,5 @@
 // src/components/AudioSamplesSection.js
 import React from 'react';
-import AudioPlayer from './AudioPlayer'; // Compact player for grid
 import AudioPlayerWithLogo from './AudioPlayerWithLogo'; // Player with brand logo
 
 const AudioSamplesSection = ({ samples, brands }) => {

@@ -103,7 +103,8 @@ const AboutMe2 = () => {
           transform: 'translateY(0)'
         }}
       >
-        <div className="relative max-w-lg">
+        {/* Increased max width by ~5%: 32rem * 1.05 = 33.6rem */}
+        <div className="relative max-w-[33.6rem]">
           {/* Main speech bubble with gradient background */}
           <div className="relative bg-gradient-to-br from-white to-gray-50 rounded-3xl px-8 py-8 shadow-2xl border-1 border-gray-200/50"
             style={{

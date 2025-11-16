@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useAudioContext } from '../contexts/AudioContext';
 
 const AudioPlayerWithLogo = ({ title, description, file, logo }) => {
@@ -17,7 +17,7 @@ const AudioPlayerWithLogo = ({ title, description, file, logo }) => {
   const playerId = `${title}-${file}`.replace(/\s+/g, '-');
 
   // Generate a natural-looking random waveform pattern
-  const generateNaturalWaveform = (seed = 0) => {
+  const generateNaturalWaveform = useCallback((seed = 0) => {
     const samples = 40;
     const waveform = [];
     
@@ -63,19 +63,19 @@ const AudioPlayerWithLogo = ({ title, description, file, logo }) => {
     }
     
     return waveform;
-  };
+  }, []);
 
   // Load and generate natural waveform
-  const loadWaveform = () => {
+  const loadWaveform = useCallback(() => {
     setIsLoadingWaveform(true);
-    
+
     // Generate a natural-looking waveform based on the file path as seed
     // This ensures each audio file gets a consistent but unique waveform
     const seed = file.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const waveform = generateNaturalWaveform(seed);
     setWaveformData(waveform);
     setIsLoadingWaveform(false);
-  };
+  }, [file, generateNaturalWaveform]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -115,7 +115,7 @@ const AudioPlayerWithLogo = ({ title, description, file, logo }) => {
       // Unregister when component unmounts
       unregisterAudio(playerId);
     };
-  }, [file, playerId, registerAudio, unregisterAudio, stopAudio]); // Add dependencies
+  }, [file, playerId, registerAudio, unregisterAudio, stopAudio, loadWaveform]); // Add dependencies
 
   const togglePlayPause = () => {
     const audio = audioRef.current;

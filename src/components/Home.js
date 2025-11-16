@@ -4,7 +4,6 @@ import AboutMe2 from './AboutMe2';
 import AudioSamplesSection from './AudioSamplesSection';
 // import BrandCarousel from './BrandCarousel';
 import ServicesSection from './ServicesSection';
-import ServicesContactSection from './ServicesContactSection';
 import ContactSection from './ContactSection';
 import { speakerData } from '../data/content';
 
