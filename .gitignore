@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Ignore deploy private key (generated for CI deployment). Do NOT commit the private key.
+.github/deploy_key
