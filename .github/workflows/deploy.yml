@@ -33,23 +33,23 @@ jobs:
           set -e
           echo "Preparing SSH key"
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          
+          # Write the key and ensure proper line endings
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-
-          # Convert private key to legacy PEM format if needed. Some OpenSSH/private
-          # key formats can trigger "error in libcrypto" when libssh/libcrypto try to
-          # load them. This re-encodes the key to PEM which is widely supported.
-          ssh-keygen -p -N "" -m PEM -f ~/.ssh/deploy_key || true
-
-          # Start an ssh-agent and add the key. This plus IdentitiesOnly prevents the
-          # client from offering many identities and hitting "Too many authentication failures".
+          
+          # Start ssh-agent and add the key directly to the agent.
+          # Using ssh-agent (without -i flag) is more reliable than file-based auth
+          # and avoids "error in libcrypto" issues with certain key formats.
           eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/deploy_key || true
-
+          ssh-add ~/.ssh/deploy_key
+          
           echo "Adding host to known_hosts (so SSH won't prompt)"
-          ssh-keyscan -p ${SSH_PORT:-22} ${SSH_HOST} >> ~/.ssh/known_hosts || true
+          ssh-keyscan -p ${SSH_PORT:-22} ${SSH_HOST} >> ~/.ssh/known_hosts 2>/dev/null || true
 
           echo "Syncing build/ to ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}"
-          rsync -avz --delete -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -p ${SSH_PORT:-22} -o StrictHostKeyChecking=yes" build/ ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}
+          # Use ssh-agent (no -i flag needed), and set IdentitiesOnly + IdentityFile to prevent
+          # offering other keys and hitting "Too many authentication failures"
+          rsync -avz --delete -e "ssh -o IdentitiesOnly=yes -o IdentityFile=~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=yes" build/ ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}
 
           echo "Deployment finished"
