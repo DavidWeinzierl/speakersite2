@@ -40,7 +40,60 @@ PORT=5000
 - Keine Antwort im Formular → Browser DevTools Netzwerkanfragen prüfen (CORS / 404 / 500).
 
 ### Produktion
-Bei Deployment auf z.B. Vercel: `server/index.js` in eine Serverless Function umwandeln oder eigenes `api/contact.js` anlegen (gleiche Logik). Environment Variables über Anbieter UI setzen.
+Empfohlen (ein Host, eine Domain): Frontend + API vom Node-Server ausliefern.
+
+Schnellstart auf einem Node‑fähigen Webspace (SSH):
+
+1) Environment Variablen setzen (nicht committen). Auf dem Server in der Shell oder in einer `.env` Datei:
+```
+SMTP_HOST=smtp.world4you.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your-mailbox@philyourvoice.at
+SMTP_PASS=your-password
+TARGET_EMAIL=philipp@philyourvoice.at
+SMTP_FROM=Kontakt Formular <your-mailbox@philyourvoice.at>
+PORT=5000
+SERVE_STATIC=true
+```
+
+2) Build & Start (einmalig testen):
+```
+npm ci
+npm run build
+NODE_ENV=production SERVE_STATIC=true node server/index.js
+```
+
+3) Dauerhaft betreiben (PM2):
+```
+npm i -g pm2
+pm2 start ecosystem.config.js
+pm2 save
+pm2 startup   # optional, damit PM2 beim Reboot startet
+```
+
+4) Optional: Reverse Proxy (Nginx/Apache) vor den Node‑Port setzen und TLS terminieren. Beispiel Nginx:
+```
+server {
+	listen 80;
+	server_name your-domain.tld www.your-domain.tld;
+	location / {
+		proxy_pass http://127.0.0.1:5000;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;
+	}
+}
+```
+
+Hinweise zu Absender/Reply‑To:
+- Verwende als SMTP‑Konto eine Mailbox deiner Domain, z.B. `no-reply@philyourvoice.at` oder `website@philyourvoice.at`.
+- Setze `from` auf diese Adresse (oder `SMTP_FROM`).
+- Setze `replyTo` auf die Adresse des Formular‑Absenders (bereits implementiert), damit du im Mail‑Client direkt antworten kannst.
+- Spoofing (From=Besucheradresse) führt bei DMARC/ SPF oft zu Zustellproblemen – nicht empfohlen.
+
+Alternative: Serverless Deployment (Vercel/Netlify/Render): `server/index.js` als Function adaptieren und Env Vars im Anbieter setzen.
 
 # Getting Started with Create React App
 
