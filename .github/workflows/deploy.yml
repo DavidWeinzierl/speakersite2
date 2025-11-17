@@ -35,13 +35,16 @@ jobs:
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           
-          # Write the key preserving newlines
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          # Write the key preserving newlines - use printf to avoid extra newlines
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           
           # Debug: Show first line to verify key format (won't show actual key data)
           echo "Key format check:"
           head -1 ~/.ssh/deploy_key
+          echo "Key line count: $(wc -l < ~/.ssh/deploy_key)"
+          echo "Key validation:"
+          ssh-keygen -l -f ~/.ssh/deploy_key || echo "Key validation failed"
           
           # Debug: Show what SSH_HOST resolves to (masked by GitHub)
           echo "Connecting to host: ${SSH_HOST}"
