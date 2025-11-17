@@ -89,16 +89,29 @@ jobs:
           
           # Test SSH connection with more verbose output
           echo "Testing SSH connection"
-          ssh -v -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 "${SSH_USER}@${HOST_CLEAN}" "echo 'SSH connection successful'" || {
+          ssh -v -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} \
+            -o StrictHostKeyChecking=accept-new \
+            -o ConnectTimeout=10 \
+            -o IdentitiesOnly=yes \
+            -o PreferredAuthentications=publickey \
+            -o PasswordAuthentication=no \
+            -o KbdInteractiveAuthentication=no \
+            "${SSH_USER}@${HOST_CLEAN}" "echo 'SSH connection successful'" || {
             echo "SSH connection failed. Checking DNS..."
             nslookup ${HOST_CLEAN} || true
             echo "Trying with IPv4 only..."
-            ssh -4 -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new "${SSH_USER}@${HOST_CLEAN}" "echo 'SSH connection successful'"
+            ssh -4 -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} \
+              -o StrictHostKeyChecking=accept-new \
+              -o IdentitiesOnly=yes \
+              -o PreferredAuthentications=publickey \
+              -o PasswordAuthentication=no \
+              -o KbdInteractiveAuthentication=no \
+              "${SSH_USER}@${HOST_CLEAN}" "echo 'SSH connection successful'"
           }
 
           echo "Syncing build/ to ${SSH_USER}@${HOST_CLEAN}:${SSH_DESTINATION}"
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new" \
+            -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new -o IdentitiesOnly=yes -o PreferredAuthentications=publickey -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no" \
             build/ "${SSH_USER}@${HOST_CLEAN}:${SSH_DESTINATION}"
 
           echo "Deployment finished successfully"
