@@ -1,5 +1,10 @@
 # SpeakerSite2
 
+## Quick Links
+- **Local Development:** See below
+- **Deployment:** See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment guide
+- **Contact Form Setup:** See below
+
 ## Kontaktformular (Direkter Versand ohne Mail-Programm)
 
 Das Formular sendet per `POST /api/contact` direkt an `philipp@philyourvoice.at` (über `TARGET_EMAIL`). Früher war ein `mailto:` Link im Einsatz; jetzt läuft alles serverseitig über SMTP.

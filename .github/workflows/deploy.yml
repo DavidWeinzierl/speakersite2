@@ -33,23 +33,25 @@ jobs:
           set -e
           echo "Preparing SSH key"
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
           
-          # Write the key and ensure proper line endings
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          # Write the key directly with echo -e to preserve formatting
+          # This avoids libcrypto errors with OpenSSH format keys
+          echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           
-          # Start ssh-agent and add the key directly to the agent.
-          # Using ssh-agent (without -i flag) is more reliable than file-based auth
-          # and avoids "error in libcrypto" issues with certain key formats.
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/deploy_key
+          # Verify key format
+          head -1 ~/.ssh/deploy_key
           
-          echo "Adding host to known_hosts (so SSH won't prompt)"
+          echo "Adding host to known_hosts"
           ssh-keyscan -p ${SSH_PORT:-22} ${SSH_HOST} >> ~/.ssh/known_hosts 2>/dev/null || true
 
+          echo "Testing SSH connection"
+          ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new ${SSH_USER}@${SSH_HOST} "echo 'SSH connection successful'"
+
           echo "Syncing build/ to ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}"
-          # Use ssh-agent (no -i flag needed), and set IdentitiesOnly + IdentityFile to prevent
-          # offering other keys and hitting "Too many authentication failures"
-          rsync -avz --delete -e "ssh -o IdentitiesOnly=yes -o IdentityFile=~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=yes" build/ ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new" \
+            build/ ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}
 
           echo "Deployment finished"
