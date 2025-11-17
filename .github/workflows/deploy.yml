@@ -65,28 +65,37 @@ jobs:
           if printf '%s' "$SSH_HOST" | LC_ALL=C grep -q $'\t'; then
             echo "Warning: SSH_HOST contains a tab (\t). Remove it from the secret."
           fi
+          echo "Diagnostic: SSH_HOST hexdump (space-separated hex bytes):"
+          printf '%s' "$SSH_HOST" | od -An -t x1 | tr -s ' ' | sed 's/^ *//' || true
+          
+          # Sanitize host for command usage (strip spaces, tabs, CR, LF)
+          HOST_CLEAN=$(printf '%s' "$SSH_HOST" | tr -d '\r\n\t ')
+          if [ "$HOST_CLEAN" != "$SSH_HOST" ]; then
+            echo "Notice: Using sanitized host value without whitespace/control chars."
+          fi
+          echo "Host used for commands (masked in logs): ${HOST_CLEAN}"
           # Basic getent check (will fail silently if host malformed)
           echo "Diagnostic: getent hosts lookup:" || true
-          getent hosts "$SSH_HOST" || echo "getent hosts failed (may indicate hidden characters)"
+          getent hosts "$HOST_CLEAN" || echo "getent hosts failed (may indicate hidden characters)"
           
           # Add host to known_hosts with retry logic
           echo "Adding host to known_hosts"
           for i in 1 2 3; do
-            ssh-keyscan -p ${SSH_PORT:-22} ${SSH_HOST} >> ~/.ssh/known_hosts 2>&1 && break || sleep 2
+            ssh-keyscan -p ${SSH_PORT:-22} ${HOST_CLEAN} >> ~/.ssh/known_hosts 2>&1 && break || sleep 2
           done
           
           # Test SSH connection with more verbose output
           echo "Testing SSH connection"
-          ssh -v -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 ${SSH_USER}@${SSH_HOST} "echo 'SSH connection successful'" || {
+          ssh -v -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 "${SSH_USER}@${HOST_CLEAN}" "echo 'SSH connection successful'" || {
             echo "SSH connection failed. Checking DNS..."
-            nslookup ${SSH_HOST} || true
+            nslookup ${HOST_CLEAN} || true
             echo "Trying with IPv4 only..."
-            ssh -4 -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new ${SSH_USER}@${SSH_HOST} "echo 'SSH connection successful'"
+            ssh -4 -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new "${SSH_USER}@${HOST_CLEAN}" "echo 'SSH connection successful'"
           }
 
-          echo "Syncing build/ to ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}"
+          echo "Syncing build/ to ${SSH_USER}@${HOST_CLEAN}:${SSH_DESTINATION}"
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new" \
-            build/ ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}
+            build/ "${SSH_USER}@${HOST_CLEAN}:${SSH_DESTINATION}"
 
           echo "Deployment finished successfully"
