@@ -47,6 +47,27 @@ jobs:
           echo "Connecting to host: ${SSH_HOST}"
           echo "Port: ${SSH_PORT:-22}"
           echo "User: ${SSH_USER}"
+
+          echo "Diagnostic: SSH_HOST raw length => $(echo -n "$SSH_HOST" | wc -c)"
+          # Remove all spaces for comparison
+          _trimmed_no_spaces="${SSH_HOST// }"
+          echo "Diagnostic: SSH_HOST length without spaces => $(echo -n "$_trimmed_no_spaces" | wc -c)"
+          if [ "$SSH_HOST" != "$_trimmed_no_spaces" ]; then
+            echo "Warning: SSH_HOST contains one or more space characters."
+          fi
+          # Detect control characters (including possible carriage return) safely
+          if printf '%s' "$SSH_HOST" | LC_ALL=C grep -q $'\r'; then
+            echo "Warning: SSH_HOST contains a carriage return (\r). Remove it from the secret."
+          fi
+          if printf '%s' "$SSH_HOST" | LC_ALL=C grep -q $'\n'; then
+            echo "Warning: SSH_HOST contains a newline (\n). Remove it from the secret."
+          fi
+          if printf '%s' "$SSH_HOST" | LC_ALL=C grep -q $'\t'; then
+            echo "Warning: SSH_HOST contains a tab (\t). Remove it from the secret."
+          fi
+          # Basic getent check (will fail silently if host malformed)
+          echo "Diagnostic: getent hosts lookup:" || true
+          getent hosts "$SSH_HOST" || echo "getent hosts failed (may indicate hidden characters)"
           
           # Add host to known_hosts with retry logic
           echo "Adding host to known_hosts"

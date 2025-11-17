@@ -1,14 +1,11 @@
-# DISABLED: Not using GitHub Pages anymore
-# This workflow deploys to World4You via SSH instead
-# See deploy.yml for active deployment workflow
+name: (Disabled) GitHub Pages Deployment
 
-# name: Deploy React App to Pages
-# 
-# on:
-#   push:
-#     branches: ["main"]
-# 
-#   workflow_dispatch:
+# This workflow is kept only for reference. It no longer auto-runs.
+# Trigger is manual-only so pushes won't fail with "No event triggers defined in `on`".
+# To fully retire it, you can delete this file.
+
+on:
+  workflow_dispatch:
 
 permissions:
   contents: read
