@@ -2,7 +2,8 @@
 
 ## Quick Links
 - **Local Development:** See below
-- **Deployment:** See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment guide
+- **Deployment:** See [DEPLOYMENT.md](DEPLOYMENT.md) for deployment setup
+- **Production Management:** See [PRODUCTION.md](PRODUCTION.md) for server management
 - **Contact Form Setup:** See below
 
 ## Kontaktformular (Direkter Versand ohne Mail-Programm)
