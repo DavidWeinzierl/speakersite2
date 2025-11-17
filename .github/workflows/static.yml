@@ -1,10 +1,14 @@
-name: Deploy React App to Pages
+# DISABLED: Not using GitHub Pages anymore
+# This workflow deploys to World4You via SSH instead
+# See deploy.yml for active deployment workflow
 
-on:
-  push:
-    branches: ["main"]
-
-  workflow_dispatch:
+# name: Deploy React App to Pages
+# 
+# on:
+#   push:
+#     branches: ["main"]
+# 
+#   workflow_dispatch:
 
 permissions:
   contents: read

@@ -35,23 +35,37 @@ jobs:
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           
-          # Write the key directly with echo -e to preserve formatting
-          # This avoids libcrypto errors with OpenSSH format keys
-          echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          # Write the key preserving newlines
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           
-          # Verify key format
+          # Debug: Show first line to verify key format (won't show actual key data)
+          echo "Key format check:"
           head -1 ~/.ssh/deploy_key
           
+          # Debug: Show what SSH_HOST resolves to (masked by GitHub)
+          echo "Connecting to host: ${SSH_HOST}"
+          echo "Port: ${SSH_PORT:-22}"
+          echo "User: ${SSH_USER}"
+          
+          # Add host to known_hosts with retry logic
           echo "Adding host to known_hosts"
-          ssh-keyscan -p ${SSH_PORT:-22} ${SSH_HOST} >> ~/.ssh/known_hosts 2>/dev/null || true
-
+          for i in 1 2 3; do
+            ssh-keyscan -p ${SSH_PORT:-22} ${SSH_HOST} >> ~/.ssh/known_hosts 2>&1 && break || sleep 2
+          done
+          
+          # Test SSH connection with more verbose output
           echo "Testing SSH connection"
-          ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new ${SSH_USER}@${SSH_HOST} "echo 'SSH connection successful'"
+          ssh -v -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 ${SSH_USER}@${SSH_HOST} "echo 'SSH connection successful'" || {
+            echo "SSH connection failed. Checking DNS..."
+            nslookup ${SSH_HOST} || true
+            echo "Trying with IPv4 only..."
+            ssh -4 -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new ${SSH_USER}@${SSH_HOST} "echo 'SSH connection successful'"
+          }
 
           echo "Syncing build/ to ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}"
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new" \
             build/ ${SSH_USER}@${SSH_HOST}:${SSH_DESTINATION}
 
-          echo "Deployment finished"
+          echo "Deployment finished successfully"
