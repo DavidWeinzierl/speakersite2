@@ -77,6 +77,15 @@ jobs:
             echo "Notice: Using sanitized host value without whitespace/control chars."
           fi
           echo "Host used for commands (masked in logs): ${HOST_CLEAN}"
+          
+          # Username diagnostics and sanitization
+          echo "Diagnostic: SSH_USER raw length => $(echo -n \"$SSH_USER\" | wc -c)"
+          echo "Diagnostic: SSH_USER hexdump (space-separated hex bytes):"
+          printf '%s' "$SSH_USER" | od -An -t x1 | tr -s ' ' | sed 's/^ *//' || true
+          USER_CLEAN=$(printf '%s' "$SSH_USER" | tr -d '\r\n\t ')
+          if [ "$USER_CLEAN" != "$SSH_USER" ]; then
+            echo "Notice: Using sanitized user value without whitespace/control chars."
+          fi
           # Basic getent check (will fail silently if host malformed)
           echo "Diagnostic: getent hosts lookup:" || true
           getent hosts "$HOST_CLEAN" || echo "getent hosts failed (may indicate hidden characters)"
@@ -96,7 +105,7 @@ jobs:
             -o PreferredAuthentications=publickey \
             -o PasswordAuthentication=no \
             -o KbdInteractiveAuthentication=no \
-            "${SSH_USER}@${HOST_CLEAN}" "echo 'SSH connection successful'" || {
+            "${USER_CLEAN}@${HOST_CLEAN}" "echo 'SSH connection successful'" || {
             echo "SSH connection failed. Checking DNS..."
             nslookup ${HOST_CLEAN} || true
             echo "Trying with IPv4 only..."
@@ -106,12 +115,12 @@ jobs:
               -o PreferredAuthentications=publickey \
               -o PasswordAuthentication=no \
               -o KbdInteractiveAuthentication=no \
-              "${SSH_USER}@${HOST_CLEAN}" "echo 'SSH connection successful'"
+              "${USER_CLEAN}@${HOST_CLEAN}" "echo 'SSH connection successful'"
           }
 
-          echo "Syncing build/ to ${SSH_USER}@${HOST_CLEAN}:${SSH_DESTINATION}"
+          echo "Syncing build/ to ${USER_CLEAN}@${HOST_CLEAN}:${SSH_DESTINATION}"
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22} -o StrictHostKeyChecking=accept-new -o IdentitiesOnly=yes -o PreferredAuthentications=publickey -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no" \
-            build/ "${SSH_USER}@${HOST_CLEAN}:${SSH_DESTINATION}"
+            build/ "${USER_CLEAN}@${HOST_CLEAN}:${SSH_DESTINATION}"
 
           echo "Deployment finished successfully"
