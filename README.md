@@ -2,7 +2,7 @@
 
 ## Kontaktformular (Direkter Versand ohne Mail-Programm)
 
-Das bisherige Formular nutzte einen `mailto:` Link und öffnete das lokale Mail-Programm. Jetzt gibt es einen Server-Endpunkt (`POST /api/contact`), der E-Mails direkt an `philipp@philyourvoice.at` (konfigurierbar) versendet.
+Das Formular sendet per `POST /api/contact` direkt an `philipp@philyourvoice.at` (über `TARGET_EMAIL`). Früher war ein `mailto:` Link im Einsatz; jetzt läuft alles serverseitig über SMTP.
 
 ### Wichtiger Hinweis zu GitHub Pages
 GitHub Pages ist rein statisch und kann den neuen Express Server nicht ausführen. Optionen:
@@ -10,20 +10,20 @@ GitHub Pages ist rein statisch und kann den neuen Express Server nicht ausführe
 2. Beibehalten von GitHub Pages für das Frontend und Deployment des Servers auf einem separaten Host; das Frontend spricht dann dessen URL (Proxy entfernen und statt `/api/contact` absolute URL verwenden z.B. `https://api.deine-domain.tld/api/contact`).
 3. Alternative ohne eigenen Server: Dienste wie EmailJS, Formspree, Resend, SendGrid (Client-Integration). Diese erfordern API-Keys – niemals im Repository im Klartext committen.
 
-### Einrichtung für lokalen Versand
+### Einrichtung (lokal)
 1. Kopiere `.env.example` nach `.env` und trage echte SMTP Zugangsdaten ein.
 2. Installiere Abhängigkeiten (falls noch nicht): `npm install`.
 3. Starte Entwicklungsumgebung mit Backend: `npm run dev` (startet React + Express).
 4. Teste das Formular: Ausfüllen und absenden – Erfolgs-/Fehlerstatus wird angezeigt.
 
-Erforderliche Variablen in `.env`:
+Erforderliche Variablen in `.env` (World4You Beispiel):
 ```
-SMTP_HOST=dein.smtp.host
+SMTP_HOST=smtp.world4you.com
 SMTP_PORT=587
-SMTP_SECURE=false            # true falls Port 465 verwendet wird
-SMTP_USER=dein_smtp_user
-SMTP_PASS=dein_smtp_passwort
-SMTP_FROM=no-reply@deine-domain.tld  # optional
+SMTP_SECURE=false            # true falls Port 465 verwendet wird (465 -> true)
+SMTP_USER=philipp@philyourvoice.at   # dein echtes Postfach
+SMTP_PASS=DEIN_PASSWORT
+SMTP_FROM=philipp@philyourvoice.at   # oder website@philyourvoice.at (kein Besucher-Mail hier!)
 TARGET_EMAIL=philipp@philyourvoice.at
 PORT=5000
 ```
@@ -39,7 +39,7 @@ PORT=5000
 - Auth Fehler → SMTP User/Pass oder Host/Port prüfen; ggf. TLS (`SMTP_SECURE=true`).
 - Keine Antwort im Formular → Browser DevTools Netzwerkanfragen prüfen (CORS / 404 / 500).
 
-### Produktion
+### Produktion (ein Host für Frontend + API)
 Empfohlen (ein Host, eine Domain): Frontend + API vom Node-Server ausliefern.
 
 Schnellstart auf einem Node‑fähigen Webspace (SSH):
@@ -49,10 +49,10 @@ Schnellstart auf einem Node‑fähigen Webspace (SSH):
 SMTP_HOST=smtp.world4you.com
 SMTP_PORT=587
 SMTP_SECURE=false
-SMTP_USER=your-mailbox@philyourvoice.at
-SMTP_PASS=your-password
+SMTP_USER=philipp@philyourvoice.at
+SMTP_PASS=********
 TARGET_EMAIL=philipp@philyourvoice.at
-SMTP_FROM=Kontakt Formular <your-mailbox@philyourvoice.at>
+SMTP_FROM=Kontakt Formular <philipp@philyourvoice.at>
 PORT=5000
 SERVE_STATIC=true
 ```
@@ -88,10 +88,27 @@ server {
 ```
 
 Hinweise zu Absender/Reply‑To:
-- Verwende als SMTP‑Konto eine Mailbox deiner Domain, z.B. `no-reply@philyourvoice.at` oder `website@philyourvoice.at`.
-- Setze `from` auf diese Adresse (oder `SMTP_FROM`).
-- Setze `replyTo` auf die Adresse des Formular‑Absenders (bereits implementiert), damit du im Mail‑Client direkt antworten kannst.
-- Spoofing (From=Besucheradresse) führt bei DMARC/ SPF oft zu Zustellproblemen – nicht empfohlen.
+- SMTP_USER / SMTP_FROM sollten eine Domain-Mailbox sein, z.B. `philipp@philyourvoice.at` oder eigenes Postfach `website@philyourvoice.at`.
+- From bleibt bei dir (Authentizität für SPF/DMARC). Besucheradresse kommt als `replyTo` (bereits implementiert).
+- Niemals From auf Besucheradresse setzen (führt zu Spam / Ablehnung).
+
+### Validierung testen
+
+Lokaler Schnelltest (nachdem `npm run dev` läuft):
+
+```bash
+curl -X POST http://localhost:5000/api/contact \
+	-H 'Content-Type: application/json' \
+	-d '{"name":"Test User","email":"tester@example.com","subject":"Test","message":"Hallo Welt"}'
+```
+
+Erwartete Antwort: `{"ok":true}` und eine Mail im Postfach.
+
+Falls Fehler: Prüfe Server Logs / Konsole, besonders SMTP Zugangsdaten.
+
+### Automatischer Kontakt-Endpunkt Test
+
+Du kannst `npm run test:contact` hinzufügen (siehe unten), um automatisiert eine Probe-Anfrage an den lokalen oder entfernten Server zu schicken.
 
 Alternative: Serverless Deployment (Vercel/Netlify/Render): `server/index.js` als Function adaptieren und Env Vars im Anbieter setzen.
 
