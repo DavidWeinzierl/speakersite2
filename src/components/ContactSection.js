@@ -18,25 +18,49 @@ const ContactSection = ({ email }) => {
     });
   };
 
+  // Honeypot field for spam bots
+  const [honey, setHoney] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
     try {
-      const API_BASE = process.env.REACT_APP_API_BASE || '';
-      const res = await fetch(`${API_BASE}/api/contact`, {
+      // Abort if honeypot filled (likely a bot)
+      if (honey) {
+        throw new Error('Spam erkannt');
+      }
+
+      // FormSubmit AJAX endpoint format: https://formsubmit.co/ajax/EMAIL
+      const endpoint = `https://formsubmit.co/ajax/philipp@philyourvoice.at`;
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        // Optional metadata
+        _captcha: 'false', // disable built‑in captcha (you can remove to enable)
+        _template: 'table'
+      };
+
+      const res = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
       });
-      const data = await res.json();
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error || 'Fehler beim Senden');
+
+      const data = await res.json().catch(() => ({}));
+      // FormSubmit returns { success: '...' } on success
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'Fehler beim Senden');
       }
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {
-      console.error(err);
+      console.error('FormSubmit Fehler:', err);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -60,7 +84,20 @@ const ContactSection = ({ email }) => {
           <div className="bg-white rounded-2xl shadow-xl p-8 lg:p-10 transform hover:shadow-2xl transition-all duration-300">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Nachricht senden</h3>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+              {/* Honeypot (hidden) */}
+              <div style={{display:'none'}} aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input
+                  id="website"
+                  name="website"
+                  type="text"
+                  value={honey}
+                  onChange={(e) => setHoney(e.target.value)}
+                  tabIndex="-1"
+                  autoComplete="off"
+                />
+              </div>
               {/* Name Field */}
               <div className="group">
                 <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">

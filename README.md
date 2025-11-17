@@ -6,9 +6,19 @@
 - **Production Management:** See [PRODUCTION.md](PRODUCTION.md) for server management
 - **Contact Form Setup:** See below
 
-## Kontaktformular (Direkter Versand ohne Mail-Programm)
+## Kontaktformular (FormSubmit Integration)
 
-Das Formular sendet per `POST /api/contact` direkt an `philipp@philyourvoice.at` (über `TARGET_EMAIL`). Früher war ein `mailto:` Link im Einsatz; jetzt läuft alles serverseitig über SMTP.
+Das Kontaktformular nutzt jetzt [FormSubmit](https://formsubmit.co) statt eines eigenen Node/SMTP Backends. Vorteile:
+
+1. Kein Reverse Proxy auf Shared Hosting nötig.
+2. Keine SMTP Credentials auf dem Server / kein CORS Problem.
+3. Unbegrenztes Free Tier (laut Anbieter; Fair Use beachten).
+
+Technik: Beim Absenden wird eine AJAX Anfrage an `https://formsubmit.co/ajax/philipp@philyourvoice.at` gesendet. Erfolgreiche Antworten enthalten `success`. Bei Fehler wird eine Fehlermeldung angezeigt.
+
+Spam-Schutz: Einfaches Honeypot Feld (`website`) wurde hinzugefügt. Bei Bedarf zusätzlich `_captcha` entfernen oder aktivieren.
+
+Server-Route `/api/contact` wird nicht mehr benötigt; der vorhandene Code kann später entfernt werden.
 
 ### Wichtiger Hinweis zu GitHub Pages
 GitHub Pages ist rein statisch und kann den neuen Express Server nicht ausführen. Optionen:
@@ -22,7 +32,7 @@ GitHub Pages ist rein statisch und kann den neuen Express Server nicht ausführe
 3. Starte Entwicklungsumgebung mit Backend: `npm run dev` (startet React + Express).
 4. Teste das Formular: Ausfüllen und absenden – Erfolgs-/Fehlerstatus wird angezeigt.
 
-Erforderliche Variablen in `.env` (World4You Beispiel):
+Erforderliche Variablen für den bisherigen Server-Mail-Versand (falls Sie später zurück wechseln möchten). Für FormSubmit selbst sind keine SMTP Variablen nötig:
 ```
 SMTP_HOST=smtp.world4you.com
 SMTP_PORT=587
@@ -45,7 +55,11 @@ PORT=5000
 - Auth Fehler → SMTP User/Pass oder Host/Port prüfen; ggf. TLS (`SMTP_SECURE=true`).
 - Keine Antwort im Formular → Browser DevTools Netzwerkanfragen prüfen (CORS / 404 / 500).
 
-### Produktion (ein Host für Frontend + API)
+### Produktion (aktuell mit FormSubmit)
+
+Da FormSubmit genutzt wird, müssen keine besonderen API-/Proxy Konfigurationen vorgenommen werden. Das Frontend kann statisch ausgeliefert werden.
+
+Falls später wieder eigener Versand nötig ist, siehe vorherige Dokumentation (SMTP & Server).
 Empfohlen (ein Host, eine Domain): Frontend + API vom Node-Server ausliefern.
 
 Schnellstart auf einem Node‑fähigen Webspace (SSH):
@@ -98,23 +112,17 @@ Hinweise zu Absender/Reply‑To:
 - From bleibt bei dir (Authentizität für SPF/DMARC). Besucheradresse kommt als `replyTo` (bereits implementiert).
 - Niemals From auf Besucheradresse setzen (führt zu Spam / Ablehnung).
 
-### Validierung testen
+### Validierung testen (FormSubmit)
 
-Lokaler Schnelltest (nachdem `npm run dev` läuft):
+Im Browser Formular ausfüllen – bei Erfolg sollte `Nachricht erfolgreich gesendet!` erscheinen und eine E-Mail in Ihrem Postfach landen. Für manuelles Testen per CLI (ersetzt Name/Email entsprechend):
 
 ```bash
-curl -X POST http://localhost:5000/api/contact \
-	-H 'Content-Type: application/json' \
-	-d '{"name":"Test User","email":"tester@example.com","subject":"Test","message":"Hallo Welt"}'
+curl -X POST https://formsubmit.co/ajax/philipp@philyourvoice.at \
+	-H 'Content-Type: application/json' -H 'Accept: application/json' \
+	-d '{"name":"CLI Test","email":"test@example.com","subject":"Test","message":"Hallo aus dem Terminal"}'
 ```
 
-Erwartete Antwort: `{"ok":true}` und eine Mail im Postfach.
-
-Falls Fehler: Prüfe Server Logs / Konsole, besonders SMTP Zugangsdaten.
-
-### Automatischer Kontakt-Endpunkt Test
-
-Du kannst `npm run test:contact` hinzufügen (siehe unten), um automatisiert eine Probe-Anfrage an den lokalen oder entfernten Server zu schicken.
+Erwartete Antwort enthält ein `success` Feld.
 
 Alternative: Serverless Deployment (Vercel/Netlify/Render): `server/index.js` als Function adaptieren und Env Vars im Anbieter setzen.
 
