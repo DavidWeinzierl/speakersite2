@@ -299,7 +299,7 @@ const ContactSection = ({ email }) => {
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-semibold opacity-90 mb-1">Verfügbarkeit</p>
-                    <p className="text-lg font-medium">Mo - Fr, 9:00 - 18:00</p>
+                    <p className="text-lg font-medium">24/7</p>
                   </div>
                 </div>
               </div>
