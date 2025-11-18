@@ -8,7 +8,8 @@ module.exports = {
       watch: false,
       env: {
         NODE_ENV: 'production',
-        SERVE_STATIC: 'true'
+        SERVE_STATIC: 'true',
+        MAINTENANCE_MODE: 'false'
         // Other env vars are read from the system environment or .env via dotenv
       }
     }

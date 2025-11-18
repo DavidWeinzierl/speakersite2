@@ -26,6 +26,27 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
 app.use(cors({ origin: allowedOrigins.length ? allowedOrigins : true }));
 app.use(express.json());
 
+// --- Maintenance mode middleware -----------------------------------------
+// If MAINTENANCE_MODE is 'true', all non-health requests are served a static
+// maintenance page (or 503 for API calls). This lets you toggle downtime
+// quickly via an environment variable without redeploying the build assets.
+app.use((req, res, next) => {
+  if (process.env.MAINTENANCE_MODE === 'true') {
+    // Provide a 503 JSON for API routes (including /api/health for scripted checks)
+    if (req.path.startsWith('/api')) {
+      return res.status(503).json({
+        ok: false,
+        maintenance: true,
+        message: 'Wartungsmodus aktiv. Bitte später erneut versuchen.'
+      });
+    }
+    // Serve the static maintenance page for all other routes
+    const maintenanceFile = path.join(__dirname, '..', 'public', 'maintenance.html');
+    return res.status(503).sendFile(maintenanceFile);
+  }
+  return next();
+});
+
 // Optionally serve static frontend from /build (useful on a Node host)
 if (process.env.NODE_ENV === 'production' || process.env.SERVE_STATIC === 'true') {
   const buildPath = path.join(__dirname, '..', 'build');

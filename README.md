@@ -5,6 +5,7 @@
 - **Deployment:** See [DEPLOYMENT.md](DEPLOYMENT.md) for deployment setup
 - **Production Management:** See [PRODUCTION.md](PRODUCTION.md) for server management
 - **Contact Form Setup:** See below
+- **Maintenance Mode:** See section below
 
 ## Kontaktformular (FormSubmit Integration)
 
@@ -125,6 +126,57 @@ curl -X POST https://formsubmit.co/ajax/philipp@philyourvoice.at \
 Erwartete Antwort enthält ein `success` Feld.
 
 Alternative: Serverless Deployment (Vercel/Netlify/Render): `server/index.js` als Function adaptieren und Env Vars im Anbieter setzen.
+
+## Maintenance Mode (Wartungsmodus)
+
+Um die Seite temporär offline zu schalten (z.B. für ein Update oder Datenmigration) gibt es einen schlanken Wartungsmodus.
+
+### Funktionsweise
+Setze die Environment Variable `MAINTENANCE_MODE=true`. Der Server:
+1. Antwortet auf alle `*/api/*` Endpunkte mit HTTP 503 + JSON `{ maintenance: true }`.
+2. Liefert für alle anderen Requests die statische Seite `public/maintenance.html` (Status 503).
+
+### Aktivieren
+Mac/SSH Shell (PM2 läuft bereits):
+```bash
+chmod +x scripts/enable-maintenance.sh
+./scripts/enable-maintenance.sh
+```
+Oder manuell ohne Script:
+```bash
+MAINTENANCE_MODE=true pm2 restart speakersite2 --update-env
+```
+Falls kein PM2: Stoppe den laufenden Prozess und starte:
+```bash
+MAINTENANCE_MODE=true node server/index.js
+```
+
+### Deaktivieren
+```bash
+chmod +x scripts/disable-maintenance.sh
+./scripts/disable-maintenance.sh
+```
+Manuell:
+```bash
+MAINTENANCE_MODE=false pm2 restart speakersite2 --update-env
+```
+
+### Anpassungen
+- Passe Text / Mail-Link in `public/maintenance.html` (z.B. echte Kontaktadresse).
+- Standardwert ist `MAINTENANCE_MODE=false` (siehe `ecosystem.config.js`).
+- Health Checks / Monitoring können auf HTTP 503 prüfen (geplanter Downtime Status) statt einen Alarm zu triggern.
+
+### Schneller Wechsel
+Rollback erfolgt sofort nach Entfernen/Setzen von `MAINTENANCE_MODE=false` und Neustart/Reload des Prozesses (PM2 restart). Kein Rebuild nötig.
+
+### Hinweise
+- Browser Cache kann alte App Assets halten; durch Status 503 wird meist neu geladen.
+- Wenn ein Reverse Proxy verwendet wird, stelle sicher, dass 503 nicht durch eine eigene Fehlerseite ersetzt wird.
+- Für längere Wartung kann ein `Retry-After` Header ergänzt werden. Beispiel:
+	```js
+	res.set('Retry-After', '600'); // 10 Minuten
+	```
+	(In Middleware erweiterbar.)
 
 # Getting Started with Create React App
 
