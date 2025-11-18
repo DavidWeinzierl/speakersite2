@@ -27,24 +27,34 @@ app.use(cors({ origin: allowedOrigins.length ? allowedOrigins : true }));
 app.use(express.json());
 
 // --- Maintenance mode middleware -----------------------------------------
-// If MAINTENANCE_MODE is 'true', all non-health requests are served a static
-// maintenance page (or 503 for API calls). This lets you toggle downtime
-// quickly via an environment variable without redeploying the build assets.
-app.use((req, res, next) => {
-  if (process.env.MAINTENANCE_MODE === 'true') {
-    // Provide a 503 JSON for API routes (including /api/health for scripted checks)
-    if (req.path.startsWith('/api')) {
-      return res.status(503).json({
-        ok: false,
-        maintenance: true,
-        message: 'Wartungsmodus aktiv. Bitte später erneut versuchen.'
-      });
-    }
-    // Serve the static maintenance page for all other routes
-    const maintenanceFile = path.join(__dirname, '..', 'public', 'maintenance.html');
-    return res.status(503).sendFile(maintenanceFile);
+// Two activation mechanisms:
+// 1) Environment variable MAINTENANCE_MODE=true
+// 2) Presence of a file "maintenance.flag" in project root (touch/remove)
+// This supports quick remote toggling without editing .env if needed.
+const fs = require('fs');
+function isMaintenanceActive() {
+  if (process.env.MAINTENANCE_MODE === 'true') return true;
+  try {
+    return fs.existsSync(path.join(__dirname, '..', 'maintenance.flag'));
+  } catch (_) {
+    return false;
   }
-  return next();
+}
+
+app.use((req, res, next) => {
+  if (!isMaintenanceActive()) return next();
+
+  // Provide a 503 JSON for API routes (including /api/health for scripted checks)
+  if (req.path.startsWith('/api')) {
+    return res.status(503).json({
+      ok: false,
+      maintenance: true,
+      message: 'Wartungsmodus aktiv. Bitte später erneut versuchen.'
+    });
+  }
+  // Serve the static maintenance page for all other routes
+  const maintenanceFile = path.join(__dirname, '..', 'public', 'maintenance.html');
+  return res.status(503).sendFile(maintenanceFile);
 });
 
 // Optionally serve static frontend from /build (useful on a Node host)

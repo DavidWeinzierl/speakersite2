@@ -131,54 +131,64 @@ Alternative: Serverless Deployment (Vercel/Netlify/Render): `server/index.js` al
 
 Um die Seite temporär offline zu schalten (z.B. für ein Update oder Datenmigration) gibt es einen schlanken Wartungsmodus.
 
-### Funktionsweise
-Setze die Environment Variable `MAINTENANCE_MODE=true`. Der Server:
-1. Antwortet auf alle `*/api/*` Endpunkte mit HTTP 503 + JSON `{ maintenance: true }`.
-2. Liefert für alle anderen Requests die statische Seite `public/maintenance.html` (Status 503).
+### World4You Hosting (Production)
 
-### Aktivieren
-Mac/SSH Shell (PM2 läuft bereits):
+**Aktivieren:**
+```bash
+./manage-server.sh maintenance-on
+```
+
+**Deaktivieren:**
+```bash
+./manage-server.sh maintenance-off
+```
+
+**Status prüfen:**
+```bash
+./manage-server.sh status
+```
+Im Wartungsmodus zeigt die Health-API: `{"ok":false,"maintenance":true,"message":"..."}`
+
+### Funktionsweise
+Der Server prüft zwei Bedingungen:
+1. Environment Variable `MAINTENANCE_MODE=true`
+2. Oder Existenz der Datei `maintenance.flag` im Projektverzeichnis
+
+Wenn eine der Bedingungen erfüllt ist:
+- Alle `/api/*` Endpunkte antworten mit HTTP 503 + JSON `{ maintenance: true }`
+- Alle anderen Requests bekommen die statische Seite `public/maintenance.html` (Status 503)
+
+### Lokale Entwicklung
+
+Aktivieren:
 ```bash
 chmod +x scripts/enable-maintenance.sh
 ./scripts/enable-maintenance.sh
 ```
-Oder manuell ohne Script:
-```bash
-MAINTENANCE_MODE=true pm2 restart speakersite2 --update-env
-```
-Falls kein PM2: Stoppe den laufenden Prozess und starte:
-```bash
-MAINTENANCE_MODE=true node server/index.js
-```
 
-### Deaktivieren
+Deaktivieren:
 ```bash
 chmod +x scripts/disable-maintenance.sh
 ./scripts/disable-maintenance.sh
 ```
-Manuell:
+
+Oder manuell ohne Script:
 ```bash
-MAINTENANCE_MODE=false pm2 restart speakersite2 --update-env
+MAINTENANCE_MODE=true node server/index.js
 ```
 
 ### Anpassungen
-- Passe Text / Mail-Link in `public/maintenance.html` (z.B. echte Kontaktadresse).
-- Standardwert ist `MAINTENANCE_MODE=false` (siehe `ecosystem.config.js`).
-- Health Checks / Monitoring können auf HTTP 503 prüfen (geplanter Downtime Status) statt einen Alarm zu triggern.
+- Text/Mail-Link in `public/maintenance.html` anpassen (echte Kontaktadresse eintragen)
+- Standardwert ist `MAINTENANCE_MODE=false` (siehe `ecosystem.config.js`)
+- Kein Rebuild nötig - Middleware reagiert sofort nach Restart
 
 ### Schneller Wechsel
-Rollback erfolgt sofort nach Entfernen/Setzen von `MAINTENANCE_MODE=false` und Neustart/Reload des Prozesses (PM2 restart). Kein Rebuild nötig.
+Umschalten erfolgt in ~2 Sekunden:
+1. `.env` wird aktualisiert
+2. Server wird neu gestartet
+3. Wartungsseite ist sofort aktiv
 
-### Hinweise
-- Browser Cache kann alte App Assets halten; durch Status 503 wird meist neu geladen.
-- Wenn ein Reverse Proxy verwendet wird, stelle sicher, dass 503 nicht durch eine eigene Fehlerseite ersetzt wird.
-- Für längere Wartung kann ein `Retry-After` Header ergänzt werden. Beispiel:
-	```js
-	res.set('Retry-After', '600'); // 10 Minuten
-	```
-	(In Middleware erweiterbar.)
-
-# Getting Started with Create React App
+Browser Cache wird durch Status 503 überschrieben.# Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
